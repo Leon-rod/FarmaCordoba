@@ -1,0 +1,23 @@
+html{
+    overflow: hidden; 
+    margin: 0; 
+}
+body {
+    background:linear-gradient(45deg,rgb(35, 35, 41),rgb(67, 81, 124));
+    height: 90vh;
+}
+.register-container {
+    max-width: 25rem ;
+    margin: 100px auto;
+    padding: 20px;
+    background: linear-gradient(45deg, #1b1a15, #63da4c); 
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgb(57, 122, 77);
+    color: white; 
+}
+.volver{
+    color: azure;
+}
+.btn-lg:hover {
+    background-color: #081a0c00; 
+    color: rgb(255, 180, 20); }

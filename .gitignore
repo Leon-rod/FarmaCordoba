@@ -1,0 +1,6 @@
+# Visual Studio cache and build files
+/API/FarmaceuticaBack/.vs/
+/API/FarmaceuticaBack/FarmaceuticaBack/bin
+/API/FarmaceuticaBack/FarmaceuticaBack/obj
+/API/FarmaceuticaWebApi/bin
+/API/FarmaceuticaWebApi/obj

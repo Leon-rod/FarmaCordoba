@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" href="/images/logoHead.jfif" type="image/png">
+</head>
+<body>
+
+    <nav class="navbar navbar-dark bg-dark navbar-container">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="../Inicio/inicio.html">FarmaCórdoba</a>
+            <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Menú de opciones</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-header d-flex flex-column align-items-center py-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                    </svg>
+                    <div class="text-center mt-2">
+                        <p class="mb-0 text-white" id="userName">Nombre del Usuario</p>
+                        <p class="mb-0 small" id="userRol">Rol: Administrador</p>
+                    </div>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3" id="container__navBar">
+                        
+                    </ul>
+                    <div class="text-center mt-auto mb-3">
+                        <button class="btn btn-danger" id="logoutButton">Cerrar sesión</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container-fluid p-0">
+        <div class="bg-image d-flex align-items-center justify-content-center text-center text-white" style="background-image: url('/images/portadaDef.avif'); height: 55vh; background-size: cover; background-position: center;">
+            <div class="bg-dark bg-opacity-50 p-5 rounded">
+                <h1 class="display-4">Cooperativa FarmaCórdoba</h1>
+                <p class="lead">Centro de dispensaciones provincial</p>
+                <div class="text-center mt-2">
+                    <p class="mb-0 text-white" id="userNameInicio"></p>
+                    <p class="mb-0 small" id="userRolInicio"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container text-center my-5">
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6">
+                <img src="/images/estadistica.png" class="rounded img-fluid mb-3" style="width: 150px; height: 150px; object-fit: cover;" alt="...">
+                <h4>Estadísticas</h4>
+                <p>Controle sus métricas mediante reportes personalizables</p>
+            </div>
+            
+            <div class="col-lg-3 col-md-6">
+                <img src="/images/farmacia.png" class="rounded img-fluid mb-3" style="width: 150px; height: 150px; object-fit: cover;" alt="...">
+                <h4>Medicamentos</h4>
+                <p>Acceda a información detallada sobre medicamentos disponibles</p>
+            </div>
+            
+            <div class="col-lg-3 col-md-6">
+                <img src="/images/factura.png" class="rounded img-fluid mb-3" style="width: 150px; height: 150px; object-fit: cover;" alt="...">
+                <h4>Facturas</h4>
+                <p>Gestione sus dispensaciones de manera eficiente</p>
+            </div>
+            
+            <div class="col-lg-3 col-md-6">
+                <img src="/images/pedido.png" class="rounded img-fluid mb-3" style="width: 150px; height: 150px; object-fit: cover;" alt="...">
+                <h4>Pedidos</h4>
+                <p>Registre y supervise sus pedidos de productos</p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="d-flex flex-wrap justify-content-between align-items-center border-top text-center">
+        <p class="col-md-4 mb-0 text-body-secondary text-center w-100">© 2024 FarmaCórdoba, UTN</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../js/Utils/rolesNav.js"></script>
+    <script>
+            
+            const rol = localStorage.getItem("cargoPersonal");
+            const name = localStorage.getItem("nombrePersonal");
+            
+            const $userNameInicio = document.getElementById("userNameInicio");
+            const $userRolInicio = document.getElementById("userRolInicio");
+
+            $userNameInicio.innerText = name;
+            $userRolInicio.innerText = rol;
+
+    </script>
+
+</body>
+</html>

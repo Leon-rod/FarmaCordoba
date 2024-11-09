@@ -1,0 +1,49 @@
+.main {
+    width: 90%;
+    padding-top: 1rem;
+    overflow-x: hidden;
+}
+
+
+
+.table-container {
+    max-height: 65vh; 
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.med-table {
+    width: 100%; 
+    table-layout: fixed; 
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+    box-sizing: border-box;
+    overflow-wrap: break-word; 
+    font-size: 0.8rem;
+}
+
+
+th:nth-child(1), td:nth-child(1) { width: 17%; }
+th:nth-child(2), td:nth-child(2) { width: 15%; }
+th:nth-child(3), td:nth-child(3) { width: 17%; }
+th:nth-child(4), td:nth-child(4) { width: 10%; }
+th:nth-child(5), td:nth-child(5) { width: 10%; }
+th:nth-child(6), td:nth-child(6) { width: 10%; }
+th:nth-child(7), td:nth-child(7) { width: 8%; }
+th:nth-child(8), td:nth-child(8) { width: 5%; }
+th:nth-child(9), td:nth-child(9) { width: 8%; }
+
+th {
+    position: sticky;
+    top: 0;
+    background-color: #f8f9fa; 
+    z-index: 1;
+}
+
+svg:hover{
+    cursor: pointer;
+}

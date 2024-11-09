@@ -1,0 +1,198 @@
+﻿{
+   "CodeGenerationMode": 4,
+   "ContextClassName": "FarmaceuticaContext",
+   "ContextNamespace": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": false,
+   "ModelNamespace": null,
+   "OutputContextPath": null,
+   "OutputPath": "Models",
+   "PreserveCasingWithRegex": true,
+   "ProjectRootNamespace": "FarmaceuticaBack",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 2,
+   "SelectedToBeGenerated": 0,
+   "T4TemplatePath": null,
+   "Tables": [
+      {
+         "Name": "[dbo].[BARRIOS]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[CARGOS]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[CIUDADES]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[CLIENTES]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[CONTACTOS]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[DETALLES_PEDIDOS]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[DISPENSACIONES]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[EMPRESA_LOGISTICA]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ESPECIALIDADES]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ESTABLECIMIENTOS]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[FACTURAS]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[FACTURAS_TIPOS_PAGOS]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[INVENTARIOS]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[LABORATORIOS]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[MARCAS]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[MEDICAMENTOS]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[MEDICAMENTOS_LOTES]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[MEDICOS]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[MONODROGAS]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[OBRA_SOCIAL]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[PAISES]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[PEDIDOS]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[PERSONAL]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[PERSONAL_CARGOS_ESTABLECIMIENTOS]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[PRESENTACIONES]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[PRODUCTOS]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[PROVEEDORES]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[PROVINCIAS]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[STOCKS]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[TIPOS_COBERTURAS]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[TIPOS_CONTACTOS]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[TIPOS_DOCUMENTOS]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[TIPOS_GENEROS]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[TIPOS_MOVIMIENTOS]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[TIPOS_PAGOS]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[TIPOS_PRODUCTOS]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[V_REPORTE_MENSUAL_OBRA_SOCIAL]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[V_TOTALES_FACTURADOS_FARMACIAS]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[V_TOTALES_FACTURADOS_VENDEDORES]",
+         "ObjectType": 3
+      }
+   ],
+   "UiHint": null,
+   "UncountableWords": null,
+   "UseAsyncStoredProcedureCalls": true,
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": false,
+   "UseDateOnlyTimeOnly": true,
+   "UseDbContextSplitting": false,
+   "UseDecimalDataAnnotationForSprocResult": true,
+   "UseFluentApiOnly": true,
+   "UseHandleBars": false,
+   "UseHierarchyId": false,
+   "UseInflector": true,
+   "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": false,
+   "UseNoDefaultConstructor": false,
+   "UseNoNavigations": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UsePrefixNavigationNaming": false,
+   "UseSchemaFolders": false,
+   "UseSchemaNamespaces": false,
+   "UseSpatial": false,
+   "UseT4": false
+}

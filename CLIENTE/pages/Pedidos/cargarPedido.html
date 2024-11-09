@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedido</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" href="/images/logoHead.jfif" type="image/png">
+</head>
+
+<body>
+    <nav class="navbar navbar-dark bg-dark navbar-container">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="../Inicio/inicio.html">FarmaCórdoba</a>
+            <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Menú de opciones</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-header d-flex flex-column align-items-center py-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                    </svg>
+                    <div class="text-center mt-2">
+                        <p class="mb-0 text-white" id="userName">Nombre del Usuario</p>
+                        <p class="mb-0 small" id="userRol">Rol: Administrador</p>
+                    </div>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3" id="container__navBar">
+                        
+                    </ul>
+                    <div class="text-center mt-auto mb-3">
+                        <button class="btn btn-danger" id="logoutButton">Cerrar sesión</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-5 pedidoContainer">
+        <h2 class="mb-4">Cargar Pedido</h2>
+
+        <form id="pedidoForm">
+            <div class="mb-3">
+                <label for="pedidoId" class="form-label">ID de Pedido</label>
+                <input type="text" class="form-control" id="pedidoId" disabled>
+            </div>
+            <div class="mb-3">
+                <label for="empleado" class="form-label">Empleado</label>
+                <select class="form-select" id="empleado">
+                    <option selected>Seleccione un empleado</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="logistica" class="form-label">Logística</label>
+                <select class="form-select" id="logistica">
+                    <option selected>Seleccione una empresa</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="fecha" class="form-label">Fecha</label>
+                <input type="date" class="form-control" id="fecha" disabled>
+            </div>
+        </form>
+
+        <h3 class="mt-4">Detalles de Pedido</h3>
+
+
+
+        <form id="detalleForm" onsubmit="event.preventDefault(); agregarDetalle();">
+            <div class="row">
+                <div class="col-md-3 mb-3">
+                    <select class="form-select" id="detalleMedicamento">
+                        <option selected>Medicamento</option>
+                    </select>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <select class="form-select" id="detalleProveedor">
+                        <option selected>Proveedor</option>
+                    </select>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <input type="number" class="form-control" id="detallePrecio" placeholder="Precio Unitario" min="0">
+                </div>
+                <div class="col-md-2 mb-3">
+                    <input type="number" class="form-control" id="detalleCantidad" placeholder="Cantidad" min="0">
+                </div>
+                <div class="col-md-2 mb-3">
+                    <input type="number" class="form-control" id="subtotal" placeholder="Subtotal" disabled>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <input type="number" class="form-control" id="total" placeholder="Total" disabled>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <button type="submit" class="btn btn-primary">Agregar Detalle</button>
+                </div>
+                
+            </div>
+        </form>
+
+
+
+
+
+        <table class="table table-bordered mt-3 text-center table-striped" id="detallesTable">
+            <thead>
+                <tr>
+                    <th>Pedido</th>
+                    <th>Detalle</th>
+                    <th>Medicamento</th>
+                    <th>Proveedor</th>
+                    <th>Precio Unitario</th>
+                    <th>Cantidad</th>
+                    <th>Subtotal</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+
+
+
+        <button type="button" class="btn btn-success" onclick="realizarPedido()">Realizar Pedido</button>
+
+        <div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
+            <div id="pedidoToast" class="toast align-items-center text-white bg-success border-0" role="alert"
+                aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body" id="toastMessage">
+                        Pedido realizado con éxito.
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                        aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="d-flex flex-wrap justify-content-between align-items-center border-top text-center">
+        <p class="col-md-4 mb-0 text-body-secondary text-center w-100">© 2024 FarmaCórdoba, UTN</p>
+    </footer>
+    <script src="/js/Pedidos/cargarPedido.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../js/Utils/rolesNav.js"></script>
+</body>
+
+</html>
