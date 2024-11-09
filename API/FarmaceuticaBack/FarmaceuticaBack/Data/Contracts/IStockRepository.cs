@@ -13,5 +13,9 @@ namespace FarmaceuticaBack.Data.Contracts
         Task<bool> Update(Stock stock);
         Task<List<Stock>> GetByEstablishment(int id);
         Task<List<Stock>> GetByEstablishmentAndArticle(int id,string? product,string? medicine);
+
+        Task<List<Stock>> GetStockLotesByEstablishment(int id);
+
+        Task<List<Stock>> GetStockLotesByEstablishmentAndFilter(int id, string medicamento, string lote);
     }
 }

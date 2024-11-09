@@ -18,10 +18,16 @@ namespace FarmaceuticaBack.Data.Repositories
             _context = context;
         }
 
+        public Task<bool> Add()
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<List<MedicamentosLote>> GetAll()
         {
             var medicamentos = await _context.MedicamentosLotes.Include(p => p.IdMedicamentoNavigation).ToListAsync();
             return medicamentos;
         }
+
     }
 }

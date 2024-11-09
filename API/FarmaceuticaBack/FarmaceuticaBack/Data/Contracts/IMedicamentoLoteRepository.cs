@@ -10,5 +10,8 @@ namespace FarmaceuticaBack.Data.Contracts
     public interface IMedicamentoLoteRepository
     {
         Task<List<MedicamentosLote>> GetAll();
+
+        Task<bool> Add();
+
     }
 }

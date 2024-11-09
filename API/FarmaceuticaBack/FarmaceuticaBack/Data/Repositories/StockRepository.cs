@@ -81,6 +81,62 @@ namespace FarmaceuticaBack.Data.Repositories
             return result;
         }
 
+        public async Task<List<Stock>> GetStockLotesByEstablishment(int id)
+        {
+            List<Stock> stocks = await _context.Stocks
+                         .Include(s => s.IdMedicamentoLoteNavigation)
+                         .Include(s => s.IdMedicamentoLoteNavigation.IdMedicamentoNavigation)
+                         .Include(s => s.IdMedicamentoLoteNavigation.IdMedicamentoNavigation.IdPresentacionNavigation)
+                         .Where(s => s.IdEstablecimiento == id && s.IdProducto == null)
+                         .ToListAsync();
+            List<Stock> result = new List<Stock>();
+            foreach (Stock s in stocks)
+            {
+                Stock stockAppend = s;
+                foreach (Stock stk in stocks)
+                {
+                    if (stk.IdStock != s.IdStock && stk.IdProducto == s.IdProducto && stk.IdMedicamentoLote == s.IdMedicamentoLote)
+                        stockAppend = (stk.Fecha > s.Fecha) ? stk : s;
+                }
+                result.Add(stockAppend);
+            }
+            return result;
+        }
+
+        public async Task<List<Stock>> GetStockLotesByEstablishmentAndFilter(int id, string medicamento, string lote)
+        {
+            IQueryable<Stock> query = _context.Stocks
+                                               .Include(s => s.IdMedicamentoLoteNavigation)
+                                               .Include(s => s.IdMedicamentoLoteNavigation.IdMedicamentoNavigation)
+                                               .Include(s => s.IdMedicamentoLoteNavigation.IdMedicamentoNavigation.IdPresentacionNavigation)
+                                               .Where(s => s.IdEstablecimiento == id && s.IdProducto == null);
+
+            if (!string.IsNullOrEmpty(medicamento))
+            {
+                query = query.Where(s => s.IdMedicamentoLoteNavigation.IdMedicamentoNavigation.NombreComercial.Contains(medicamento));
+            }
+
+            if (!string.IsNullOrEmpty(lote))
+            {
+                query = query.Where(s => s.IdMedicamentoLoteNavigation.Lote.Contains(lote));
+            }
+
+            List<Stock> stocks = await query.ToListAsync();
+
+            List<Stock> result = new List<Stock>();
+            foreach (Stock s in stocks)
+            {
+                Stock stockAppend = s;
+                foreach (Stock stk in stocks)
+                {
+                    if (stk.IdStock != s.IdStock && stk.IdProducto == s.IdProducto && stk.IdMedicamentoLote == s.IdMedicamentoLote)
+                        stockAppend = (stk.Fecha > s.Fecha) ? stk : s;
+                }
+                result.Add(stockAppend);
+            }
+            return result;
+        }
+
         public async Task<bool> Update(Stock stock)
         {
             _context.Stocks.Update(stock);

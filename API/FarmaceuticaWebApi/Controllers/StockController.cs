@@ -20,7 +20,7 @@ namespace FarmaceuticaWebApi.Controllers
             List<Stock> stocks = await _stockService.GetByEstablishment(id);
             if (stocks.Count > 0)
                 return Ok(stocks);
-            return Ok("No se encuentran stocks cargados en esta sucursal");
+            return NotFound("No se encuentran stocks cargados en esta sucursal");
         }
         [HttpGet("/Establishment/Articles")]
         public async Task<IActionResult> GetByEstablishmentArticle([FromQuery]int id, [FromQuery]string? product, [FromQuery] string? medicine)
@@ -36,7 +36,33 @@ namespace FarmaceuticaWebApi.Controllers
                 }
                 return Ok(stocks);
             }
-            return Ok("No se encuentran registros de stocks de ese articulo para ese establecimiento");
+            return NotFound("No se encuentran registros de stocks de ese articulo para ese establecimiento");
         }
+
+        [HttpGet("/Establishment/Lotes")]
+        public async Task<IActionResult> GetLoteByEstablishment([FromQuery] int id)
+        {
+            List<Stock> stocks = await _stockService.GetStockLotesByEstablishment(id);
+            if (stocks.Count > 0)
+            {
+
+                return Ok(stocks);
+            }
+            return NotFound("No se encuentran registros de stocks de lotes para ese establecimiento");
+        }
+
+
+        [HttpGet("/Establishment/Lotes/Filter")]
+        public async Task<IActionResult> GetLoteByEstablishmentFilter([FromQuery] int id, [FromQuery] string lote, [FromQuery] string medicamento)
+        {
+            List<Stock> stocks = await _stockService.GetStockLotesByEstablishmentAndFilter(id, lote, medicamento);
+            if (stocks.Count > 0)
+            {
+
+                return Ok(stocks);
+            }
+            return NotFound("No se encuentran registros de stocks de lotes.");
+        }
+
     }
 }
