@@ -10,5 +10,9 @@ namespace FarmaceuticaBack.Services.Contracts
     public interface IMedicamentoLoteService
     {
         Task<List<MedicamentosLote>> GetAll();
+
+        Task<bool> Add(MedicamentosLote oMedicamento);
+        Task<int> GetLastId();
+
     }
 }

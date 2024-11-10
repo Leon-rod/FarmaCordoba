@@ -18,9 +18,19 @@ namespace FarmaceuticaBack.Services.Implementations
             _service = service;
         }
 
+        public async Task<bool> Add(MedicamentosLote oMedicamento)
+        {
+           return await _service.Add(oMedicamento);
+        }
+
         public async Task<List<MedicamentosLote>> GetAll()
         {
             return await _service.GetAll();
+        }
+
+        public async Task<int> GetLastId()
+        {
+            return await _service.GetLastId();
         }
     }
 }
