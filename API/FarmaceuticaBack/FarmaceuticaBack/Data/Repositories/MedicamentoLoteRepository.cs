@@ -18,9 +18,10 @@ namespace FarmaceuticaBack.Data.Repositories
             _context = context;
         }
 
-        public Task<bool> Add()
+        public async Task<bool> Add(MedicamentosLote oMedicamento)
         {
-            throw new NotImplementedException();
+          _context.MedicamentosLotes.Add(oMedicamento);
+            return await _context.SaveChangesAsync() > 0;
         }
 
         public async Task<List<MedicamentosLote>> GetAll()
@@ -29,5 +30,14 @@ namespace FarmaceuticaBack.Data.Repositories
             return medicamentos;
         }
 
+        public async Task<int> GetLastId()
+        {
+            var lastId = await _context.MedicamentosLotes
+            .OrderByDescending(m => m.IdMedicamentoLote)
+            .Select(m => m.IdMedicamentoLote)
+            .FirstOrDefaultAsync();
+
+             return lastId;
+        }
     }
 }

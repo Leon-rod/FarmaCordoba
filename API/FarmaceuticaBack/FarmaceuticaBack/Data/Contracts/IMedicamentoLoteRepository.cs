@@ -11,7 +11,9 @@ namespace FarmaceuticaBack.Data.Contracts
     {
         Task<List<MedicamentosLote>> GetAll();
 
-        Task<bool> Add();
+        Task<bool> Add(MedicamentosLote oMedicamento);
+
+        Task<int> GetLastId();
 
     }
 }

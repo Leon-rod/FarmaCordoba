@@ -1,4 +1,5 @@
-﻿using FarmaceuticaBack.Services.Contracts;
+﻿using FarmaceuticaBack.Models;
+using FarmaceuticaBack.Services.Contracts;
 using FarmaceuticaBack.Services.Implementations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +18,7 @@ namespace FarmaceuticaWebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllClientes()
+        public async Task<IActionResult> GetAll()
         {
             try
             {
@@ -28,12 +29,57 @@ namespace FarmaceuticaWebApi.Controllers
                 }
                 else
                 {
-                    return StatusCode(400, "No hay clientes en la base de datos");
+                    return StatusCode(400, "No hay lotes en la base de datos");
                 }
             }
             catch (Exception e)
             {
                 return StatusCode(500, "Error en el servidor: " + e);
+            }
+        }
+
+        [HttpGet("LastId")]
+
+        public async Task<IActionResult> GetLastId()
+        {
+            return Ok(await _medicamentoLoteService.GetLastId());   
+        }
+
+        [HttpPost]
+
+        public async Task<IActionResult> AddLote(MedicamentosLote oMedicamento)
+        {
+            if(oMedicamento.IdMedicamento == 0 || oMedicamento.IdMedicamento == null)
+            {
+                return BadRequest("Debe ingresar un medicamento");
+            }
+
+            if (oMedicamento.Lote == "0" || oMedicamento.Lote == null)
+            {
+                return BadRequest("Debe ingresar un lote");
+            }
+
+            if(oMedicamento.FechaVencimiento == DateOnly.MinValue || oMedicamento.FechaVencimiento == null)
+            {
+                return BadRequest("Debe ingresar una fecha de vencimiento");
+            }
+
+
+            try
+            {
+                bool result = await _medicamentoLoteService.Add(oMedicamento);
+                if (result)
+                {
+                    return Ok("Lote agregado.");
+                }
+                else
+                {
+                    return BadRequest("Hubo un problema.");
+                } }
+            catch (Exception exc)
+            {
+                return StatusCode(500, exc.ToString());
+             
             }
         }
     }
