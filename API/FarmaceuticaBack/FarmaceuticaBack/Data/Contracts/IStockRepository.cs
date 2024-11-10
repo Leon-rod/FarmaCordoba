@@ -17,5 +17,8 @@ namespace FarmaceuticaBack.Data.Contracts
         Task<List<Stock>> GetStockLotesByEstablishment(int id);
 
         Task<List<Stock>> GetStockLotesByEstablishmentAndFilter(int id, string medicamento, string lote);
+
+        Task<List<Stock>> GetAllStockLotesByEstablishmentAndFilter(int establecimiento, int medicamento, int producto);
+        
     }
 }

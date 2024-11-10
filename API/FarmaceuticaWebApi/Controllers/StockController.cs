@@ -64,5 +64,34 @@ namespace FarmaceuticaWebApi.Controllers
             return NotFound("No se encuentran registros de stocks de lotes.");
         }
 
+        [HttpGet("Lotes/Establecimiento")]
+        public async Task<IActionResult> GetAllStockLotesByEstablishmentAndFilter([FromQuery]int establecimiento,[FromQuery] int medicamento,[FromQuery] int producto)
+        {
+            try
+            {
+                var stock = await _stockService.GetAllStockLotesByEstablishmentAndFilter(establecimiento, medicamento, producto);
+                if(establecimiento > 0)
+                {
+                    if (stock.Count > 0)
+                    {
+                        return Ok(stock);
+                    }
+                    else
+                    {
+                        return NotFound("No se encuentran registros disponibles");
+                    }
+                }
+                else
+                {
+                    return StatusCode(500, "No hay pedidos disponibles");
+                }
+                
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, "Error: " + e);
+            }
+        }
+
     }
 }

@@ -2,6 +2,7 @@
 using FarmaceuticaBack.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -142,5 +143,51 @@ namespace FarmaceuticaBack.Data.Repositories
             _context.Stocks.Update(stock);
             return await _context.SaveChangesAsync() > 0;
         }
+
+        public async Task<List<Stock>> GetAllStockLotesByEstablishmentAndFilter(int establecimiento, int medicamento, int producto)
+        {
+            IQueryable<Stock> query = _context.Stocks
+                                               .Include(s => s.IdMedicamentoLoteNavigation)
+                                               .Include(s => s.IdMedicamentoLoteNavigation.IdMedicamentoNavigation)
+                                               .Include(s => s.IdProductoNavigation)
+                                               .Where(s => s.IdEstablecimiento == establecimiento);
+
+            if (medicamento > 0)
+            {
+                query = query.Where(s => s.IdMedicamentoLoteNavigation.IdMedicamentoNavigation.IdMedicamento == medicamento);
+            }
+
+            if (producto > 0)
+            {
+                query = query.Where(s => s.IdProductoNavigation.IdProducto == producto);
+            }
+
+            var stocks = await query.ToListAsync();
+            var resultado = new List<Stock>();
+
+            foreach (var s in stocks)
+            {
+                var existente = resultado.
+                                        FirstOrDefault(r =>
+                                                        (s.IdProducto > 0 && r.IdProducto == s.IdProducto) ||
+                                                        (s.IdMedicamentoLote > 0 && r.IdMedicamentoLote == s.IdMedicamentoLote));
+
+                if (existente != null)
+                {
+                    if (s.Fecha > existente.Fecha)
+                    {
+                        resultado.Remove(existente);
+                        resultado.Add(s);
+                    }
+                }
+                else
+                {
+                    resultado.Add(s);
+                }
+            }
+
+            return resultado;
+        }
+
     }
 }

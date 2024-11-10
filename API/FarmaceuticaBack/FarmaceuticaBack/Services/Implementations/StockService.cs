@@ -21,6 +21,11 @@ namespace FarmaceuticaBack.Services.Implementations
             return await _stockRepository.Add(stock);
         }
 
+        public async Task<List<Stock>> GetAllStockLotesByEstablishmentAndFilter(int establecimiento, int medicamento, int producto)
+        {
+            return await _stockRepository.GetAllStockLotesByEstablishmentAndFilter(establecimiento, medicamento, producto);
+        }
+
         public async Task<List<Stock>> GetByEstablishment(int id)
         {
             return await _stockRepository.GetByEstablishment(id);
@@ -46,5 +51,6 @@ namespace FarmaceuticaBack.Services.Implementations
         {
             return await _stockRepository.Update(stock);
         }
+
     }
 }
