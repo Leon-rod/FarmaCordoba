@@ -109,7 +109,6 @@ namespace FarmaceuticaBack.Data.Repositories
             IQueryable<Stock> query = _context.Stocks
                                                .Include(s => s.IdMedicamentoLoteNavigation)
                                                .Include(s => s.IdMedicamentoLoteNavigation.IdMedicamentoNavigation)
-                                               .Include(s => s.IdMedicamentoLoteNavigation.IdMedicamentoNavigation.IdPresentacionNavigation)
                                                .Where(s => s.IdEstablecimiento == id && s.IdProducto == null);
 
             if (!string.IsNullOrEmpty(medicamento))

@@ -53,51 +53,27 @@
   
         <div class="row align-items-center vh-15">
             <div class="col">
-                <h2>Medicamentos</h2>
+                <h2>Lotes de medicamentos</h2>
             </div>
             <div class="col-auto ms-auto">
-                <button type="button" class="btn btn-primary addMed" id="addMedBtn">Agregar medicamento +</button>
+                <button type="button" class="btn btn-primary addMed" id="addLoteBtn">Agregar +</button>
             </div>
         </div>
 
         <div class="row d-flex align-items-end vh-15">
-            <div class="col-md-2">
-                <label for="nombreComercial">Nombre comercial</label>
+            <div class="col-md-4">
+                <label for="nombreComercial">Nombre medicamento</label>
                 <input type="text" class="form-control" id="nombreComercial">
             </div>
-            <div class="col-md-2">
-                <label for="marcas">Marcas</label>
-                <select class="form-select" id="marcas">
-                    <option selected>Seleccionar</option>
-                </select>
-            </div>
-            <div class="col-md-2">
-                <label for="laboratorios">Laboratorios</label>
-                <select class="form-select" id="laboratorios">
-                    <option selected>Seleccionar</option>
-                </select>
-            </div>
-            <div class="col-md-2">
-                <label for="monodrogas">Monodroga</label>
-                <select class="form-select" id="monodrogas">
-                    <option selected>Seleccionar</option>
-                </select>
-            </div>
-            <div class="col-md-2">
-                <label for="presentaciones">Presentación</label>
-                <select class="form-select" id="presentaciones">
-                    <option selected>Seleccionar</option>
-                </select>
+
+            <div class="col-md-4">
+                <label for="nombreComercial">Lote</label>
+                <input type="text" class="form-control" id="lote">
             </div>
 
-            <div class="col-md-1">
-                <label for="presentaciones">Activo</label>
 
-                <input type="checkbox" id="active" checked>
-            </div>
-
-            <div class="col-md-1 d-flex justify-content-end">
-                <button class="btn btn-primary" id="searchMed">Buscar</button>
+            <div class="col-md-4 d-flex justify-content-end">
+                <button class="btn btn-primary" id="searchLote">Buscar</button>
             </div>
         </div>
 
@@ -107,14 +83,8 @@
                 <thead>
                     <tr>
                         <th scope="col" class="">Medicamento</th>
-                        <th scope="col" class="">Descripcion</th>
-                        <th scope="col" class="">Monodroga</th>
-                        <th scope="col" class="">Marca</th>
-                        <th scope="col" class="">Laboratorio</th>
-                        <th scope="col" class="">Presentacion</th>
-                        <th scope="col" class="">Precio</th>
-                        <th scope="col" class="">Activo</th>
-                        <th scope="col" class="">Acciones</th>
+                        <th scope="col" class="">Lote</th>
+                        <th scope="col" class="">Fecha vencimiento</th>
                     </tr>
                 </thead>
                 
@@ -149,7 +119,7 @@
       </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script type="module" src="/js/Medicamentos/medicamentos.js"></script>
+    <script type="module" src="/js/Lotes/lotes.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="../../js/Utils/rolesNav.js"></script>
 </body>

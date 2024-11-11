@@ -15,6 +15,7 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
             <a class="navbar-brand" href="#">FarmaCórdoba</a>
         
             <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
@@ -53,84 +54,35 @@
       <main class="main mb-3">
         <div class="container mx-auto">
             <div class="title-container text-start my-4 pt-5 mt-6">
-                <h2>Formulario de alta Medicamentos</h2>
+                <h2>Formulario de alta Lote</h2>
             </div>
     
             <article class="medAddForm-container border rounded-2 p-3">
                 <div class="mb-3">
-                    <label for="" class="form-label">Id Medicamento</label>
-                    <input type="number" class="form-control" id="idMedAddForm" disabled placeholder="">
+                    <label for="" class="form-label">Id Lote</label>
+                    <input type="number" class="form-control" id="idLoteAddForm" disabled placeholder="">
                 </div>
     
                 <div class="mb-3">
-                    <label for="" class="form-label">Nombre Comercial</label>
-                    <input type="text" class="form-control" id="nameMedAddForm" placeholder="">
+                    <label for="" class="form-label">Medicamento</label>
+                    <select class="form-select" id="medicamento"></select>
                 </div>
     
                 <div class="mb-3">
-                    <label for="" class="form-label">Monodroga</label>
-                    <select class="form-select" id="monodrogas"></select>
+                    <label for="" class="form-label">Numero de lote</label>
+                    <input type="text" class="form-control" id="loteAddForm" placeholder="Ej: Lote 1000">
                 </div>
     
                 <div class="mb-3">
-                    <label for="" class="form-label">Laboratorio</label>
-                    <select class="form-select" id="laboratorios"></select>
-                </div>
-    
-                <div class="mb-3">
-                    <label for="" class="form-label">Marca</label>
-                    <select class="form-select" id="marcas"></select>
-                </div>
-    
-                <div class="mb-3">
-                    <label for="" class="form-label">Presentaciones</label>
-                    <select class="form-select" id="presentaciones"></select>
-                </div>
-                
-                <div class="mb-3 d-flex gap-2">
-                  <label class="form-check-label" for="">Venta libre</label>
-                  <div class="radio-button-container d-flex">
-                      <div class="form-check me-2">
-                          <input class="form-check-input" type="radio" name="ventaLibre"  value="true" id="flexRadioDefault1">
-                          <label class="form-check-label" for="ventaLibre">Sí</label>
-                      </div>
-                      <div class="form-check">
-                          <input class="form-check-input" type="radio" name="ventaLibre" value="false"  id="flexRadioDefault2" checked>
-                          <label class="form-check-label" for="ventaLibre">No</label>
-                      </div>
-                  </div>
-                </div>
-
-    
-                <div class="mb-3">
-                    <label for="" class="form-label">Descripción</label>
-                    <input type="text" class="form-control" id="descripcionMedAddForm" placeholder="">
-                </div>
-    
-                <div class="mb-3">
-                    <label for="" class="form-label">Precio</label>
-                    <input type="number" class="form-control" id="precioMedAddForm" placeholder="">
-                </div>
-                
-                <div class="mb-3 d-flex gap-2">
-                  <label class="form-check-label" for="">Activo</label>
-                  <div class="radio-button-container d-flex">
-                      <div class="form-check me-2">
-                          <input class="form-check-input" type="radio" name="activo" id="" value="true" checked>
-                          <label class="form-check-label" for="activo">Sí</label>
-                      </div>
-                      <div class="form-check">
-                          <input class="form-check-input" type="radio" name="activo"   value="false" id="">
-                          <label class="form-check-label" for="activo">No</label>
-                      </div>
-                  </div>
+                    <label for="" class="form-label">Fecha vencimiento</label>
+                    <input type="date" class="form-control" id="dateLoteAddForm">
                 </div>
 
             </article>
     
             <article class="button-confirmAdd-container text-center mt-4">
-                <button type="button" class="btn btn-primary addMed" id="btn-addMed">
-                    Agregar Medicamento +
+                <button type="button" class="btn btn-primary addMed" id="btn-addLote">
+                    Agregar +
                 </button>
             </article>
         </div>
@@ -142,7 +94,7 @@
     
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script  type="module" src="/js/Medicamentos/addMedicamentos.js"></script>
+    <script  type="module" src="/js/Lotes/addLote.js"></script>
     <script src="../../js/Utils/rolesNav.js"></script>
 </body>
 </html>

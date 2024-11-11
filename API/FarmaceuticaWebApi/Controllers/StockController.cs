@@ -53,9 +53,9 @@ namespace FarmaceuticaWebApi.Controllers
 
 
         [HttpGet("/Establishment/Lotes/Filter")]
-        public async Task<IActionResult> GetLoteByEstablishmentFilter([FromQuery] int id, [FromQuery] string lote, [FromQuery] string medicamento)
+        public async Task<IActionResult> GetLoteByEstablishmentFilter([FromQuery] int id, [FromQuery] string? lote, [FromQuery] string? medicamento)
         {
-            List<Stock> stocks = await _stockService.GetStockLotesByEstablishmentAndFilter(id, lote, medicamento);
+            List<Stock> stocks = await _stockService.GetStockLotesByEstablishmentAndFilter(id, medicamento,lote );
             if (stocks.Count > 0)
             {
 
