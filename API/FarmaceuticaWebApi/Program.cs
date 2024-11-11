@@ -83,6 +83,9 @@ builder.Services.AddScoped<IVReporteMensualOSService, VReporteMensualOSService>(
 builder.Services.AddScoped<IObraSocialRepository, ObraSocialRepository>();
 builder.Services.AddScoped<IObraSocialService, ObraSocialService>();
 
+builder.Services.AddScoped<ITipoPagoRepository, TipoPagoRepository>();
+builder.Services.AddScoped<ITipoPagoService, TipoPagoService>();
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

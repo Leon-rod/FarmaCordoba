@@ -198,6 +198,72 @@ function eliminarDetalle(index) {
 }
 
 async function realizarFactura() {
+    document.getElementById('paymentMethodsCount').addEventListener('input',async function() {
+        let count = parseInt(this.value);
+        let container = document.getElementById('paymentMethodsContainer');
+        container.innerHTML = ''; 
+    
+        if (count >= 1 && count <= 3) {
+          for (let i = 0; i < count; i++) {
+            let methodDiv = document.createElement('div');
+            methodDiv.classList.add('form-group');
+    
+            let selectLabel = document.createElement('label');
+            selectLabel.setAttribute('for', 'paymentMethod' + i);
+            selectLabel.textContent = 'Método de pago ' + (i + 1);
+            let select = document.createElement('select');
+            select.classList.add('form-control');
+            select.id = 'paymentMethod' + i;
+
+            const responseTiposPagos = await fetch('https://localhost:44379/api/TipoPago');
+            const tiposPagos = await responseTiposPagos.json();
+
+            for (const tipoPago of tiposPagos) {
+                const option = document.createElement('option');
+                option.value = tipoPago.idTipoPago;
+                option.textContent = tipoPago.tipoPago;
+                select.appendChild(option);
+            }
+            
+            let inputLabel = document.createElement('label');
+            inputLabel.setAttribute('for', 'paymentDetail' + i);
+            inputLabel.textContent = 'Detalles del pago ' + (i + 1);
+            let input = document.createElement('input');
+            input.type = 'number';
+            input.classList.add('form-control');
+            input.id = 'paymentDetail' + i;
+            input.placeholder = 'Ingrese el monto del tipo de pago';
+            
+            methodDiv.appendChild(inputLabel);
+            methodDiv.appendChild(select);
+            methodDiv.appendChild(input);
+            container.appendChild(methodDiv);
+          }
+        }
+    });
+    
+    document.getElementById('confirmButton').addEventListener('click', function() {
+        let methods = [];
+        let count = parseInt(document.getElementById('paymentMethodsCount').value);
+    
+        for (let i = 0; i < count; i++) {
+          let method = document.getElementById('paymentMethod' + i).value;
+          let detail = document.getElementById('paymentDetail' + i).value;
+          methods.push({ method, detail });
+        }
+    
+        console.log(methods);
+    });
+
+    const modal = new bootstrap.Modal(document.getElementById('paymentMethodsModal'), {
+        backdrop: 'static',
+        keyboard: false
+    });
+
+    modal.show();
+
+      // ------------------------------------------------------
+
     const facturaData = {
         idFactura: document.getElementById("facturaId").value,
         idCliente: document.getElementById("cliente").value,
