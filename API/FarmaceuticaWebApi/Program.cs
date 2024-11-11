@@ -86,6 +86,20 @@ builder.Services.AddScoped<IObraSocialService, ObraSocialService>();
 builder.Services.AddScoped<ITipoPagoRepository, TipoPagoRepository>();
 builder.Services.AddScoped<ITipoPagoService, TipoPagoService>();
 
+builder.Services.AddScoped<IGeneroRepository, GeneroRepository>();
+builder.Services.AddScoped<IGeneroService, GeneroService>();
+
+builder.Services.AddScoped<ITipoDocumentoRepository, TipoDocumentoRepository>();
+builder.Services.AddScoped<ITipoDocumentoService, TipoDocumentoService>();
+
+builder.Services.AddScoped<IBarrioRepository, BarrioRepository>();
+builder.Services.AddScoped<IBarrioService, BarrioService>();
+
+builder.Services.AddScoped<ICargoRepository, CargoRepository>();
+builder.Services.AddScoped<ICargoService, CargoService>();
+
+
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
