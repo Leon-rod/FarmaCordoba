@@ -150,44 +150,50 @@ namespace FarmaceuticaBack.Data.Repositories
                                                .Include(s => s.IdMedicamentoLoteNavigation)
                                                .Include(s => s.IdMedicamentoLoteNavigation.IdMedicamentoNavigation)
                                                .Include(s => s.IdProductoNavigation)
+                                               .Include(s => s.IdEstablecimientoNavigation)
                                                .Where(s => s.IdEstablecimiento == establecimiento);
 
             if (medicamento > 0)
             {
-                query = query.Where(s => s.IdMedicamentoLoteNavigation.IdMedicamentoNavigation.IdMedicamento == medicamento);
+                query = query.Where(s => s.IdMedicamentoLoteNavigation != null &&
+                                         s.IdMedicamentoLoteNavigation.IdMedicamentoNavigation != null &&
+                                         s.IdMedicamentoLoteNavigation.IdMedicamentoNavigation.IdMedicamento == medicamento);
             }
 
             if (producto > 0)
             {
-                query = query.Where(s => s.IdProductoNavigation.IdProducto == producto);
+                query = query.Where(s => s.IdProductoNavigation != null &&
+                                         s.IdProductoNavigation.IdProducto == producto);
             }
 
             var stocks = await query.ToListAsync();
             var resultado = new List<Stock>();
 
-            foreach (var s in stocks)
+            foreach (var stock in stocks)
             {
-                var existente = resultado.
-                                        FirstOrDefault(r =>
-                                                        (s.IdProducto > 0 && r.IdProducto == s.IdProducto) ||
-                                                        (s.IdMedicamentoLote > 0 && r.IdMedicamentoLote == s.IdMedicamentoLote));
+                var existente = resultado.FirstOrDefault(r =>
+                    (stock.IdProducto != null && r.IdProducto == stock.IdProducto) ||
+                    (stock.IdMedicamentoLoteNavigation != null && stock.IdMedicamentoLoteNavigation.IdMedicamento > 0 &&
+                     r.IdMedicamentoLoteNavigation != null && r.IdMedicamentoLoteNavigation.IdMedicamento == stock.IdMedicamentoLoteNavigation.IdMedicamento)
+                );
 
                 if (existente != null)
                 {
-                    if (s.Fecha > existente.Fecha)
+                    if (stock.Fecha > existente.Fecha)
                     {
                         resultado.Remove(existente);
-                        resultado.Add(s);
+                        resultado.Add(stock);
                     }
                 }
                 else
                 {
-                    resultado.Add(s);
+                    resultado.Add(stock);
                 }
             }
 
             return resultado;
         }
+
 
     }
 }
