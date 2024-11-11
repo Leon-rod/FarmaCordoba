@@ -16,6 +16,13 @@ namespace FarmaceuticaBack.Data.Repositories
         {
             this._context = context;
         }
+
+        public async Task<bool> Add(PersonalCargosEstablecimiento oPersonal)
+        {
+            _context.PersonalCargosEstablecimientos.Add(oPersonal);
+            return await _context.SaveChangesAsync() > 0;
+        }
+
         public async Task<List<PersonalCargosEstablecimiento>> GetAll()
         {
             List<PersonalCargosEstablecimiento> result = await _context.PersonalCargosEstablecimientos
@@ -26,12 +33,53 @@ namespace FarmaceuticaBack.Data.Repositories
             return result;
         }
 
+        public async Task<List<PersonalCargosEstablecimiento>> GetByEstablishment(int id)
+        {
+            return await _context.PersonalCargosEstablecimientos
+                                    .Where(p => p.IdEstablecimiento == id)
+                                    .Include(p => p.IdPersonalNavigation)
+                                    .Include(p => p.IdCargoNavigation)
+                                    .ToListAsync();
+        }
+
+        public async Task<List<PersonalCargosEstablecimiento>> GetByFilter(int id, string nombre, string apellido)
+        {
+            IQueryable<PersonalCargosEstablecimiento> query = _context.PersonalCargosEstablecimientos
+                                   .Include(s => s.IdPersonalNavigation)
+                                   .Include(s => s.IdCargoNavigation)
+                                   .Where(s => s.IdEstablecimiento == id);
+
+            if (!string.IsNullOrEmpty(nombre))
+            {
+                query = query.Where(s => s.IdPersonalNavigation.Nombre.Contains(nombre));
+            }
+
+            if (!string.IsNullOrEmpty(apellido))
+            {
+                query = query.Where(s => s.IdPersonalNavigation.Apellido.Contains(apellido));
+            }
+
+            List<PersonalCargosEstablecimiento> lst = await query.ToListAsync();
+
+            return lst;
+        }
+
         public async Task<PersonalCargosEstablecimiento> GetById(int id)
         {
             PersonalCargosEstablecimiento person = await _context.PersonalCargosEstablecimientos
                 .Where(p => p.IdPersonalCargosEstablecimientos == id)
                 .FirstOrDefaultAsync();
             return person;
+        }
+
+        public async Task<int> GetLastId()
+        {
+            var lastId = await _context.PersonalCargosEstablecimientos
+            .OrderByDescending(m => m.IdPersonalCargosEstablecimientos)
+            .Select(m => m.IdPersonalCargosEstablecimientos)
+            .FirstOrDefaultAsync();
+
+            return lastId;
         }
     }
 }

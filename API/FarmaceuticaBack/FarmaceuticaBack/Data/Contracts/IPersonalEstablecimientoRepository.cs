@@ -11,5 +11,15 @@ namespace FarmaceuticaBack.Data.Contracts
     {
         Task<List<PersonalCargosEstablecimiento>> GetAll();
         Task<PersonalCargosEstablecimiento> GetById(int id);
+
+        Task<List<PersonalCargosEstablecimiento>> GetByEstablishment(int id);
+
+        Task<List<PersonalCargosEstablecimiento>> GetByFilter(int id, string nombre, string apellido);
+
+        Task<bool> Add(PersonalCargosEstablecimiento oPersonal);
+
+        Task<int> GetLastId();
+
+
     }
 }

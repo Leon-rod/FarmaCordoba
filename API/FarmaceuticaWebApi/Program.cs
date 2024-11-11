@@ -98,6 +98,8 @@ builder.Services.AddScoped<IBarrioService, BarrioService>();
 builder.Services.AddScoped<ICargoRepository, CargoRepository>();
 builder.Services.AddScoped<ICargoService, CargoService>();
 
+builder.Services.AddScoped<IPersonalRepository, PersonalRepository>();
+builder.Services.AddScoped<IPersonalService, PersonalService>();
 
 
 builder.Services.AddControllers();
