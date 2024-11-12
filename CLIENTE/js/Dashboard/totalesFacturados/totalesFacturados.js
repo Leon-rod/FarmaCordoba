@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function() {
         data: {
             labels: [],
             datasets: [{
-                label: 'Total Facturado',
+                label: 'Total Facturado por vendedor, mes y año',
                 data: [],
                 borderWidth: 1
             }]
@@ -30,6 +30,27 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         }
     });
+
+    const ctx2 = document.getElementById('totals2').getContext('2d');
+    let myChart2 = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'Ventas mas caras por vendedor, mes y año',
+                data: [],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
 
 
 
@@ -48,13 +69,20 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function updateChart(data) {
-        const labels = data.map(item => item.personal); 
+        const labels = data.map(item => item.personal + ', ' + item.mes + '-' + item.año); 
         const totals = data.map(item => item.totalFacturado);
+
+        const labels2 = data.map(item => item.personal + ', ' + item.mes + '-' + item.año); 
+        const totals2 = data.map(item => item.ventaMasCara);
 
         myChart.data.labels = labels;
         myChart.data.datasets[0].data = totals;
 
+        myChart2.data.labels = labels2;
+        myChart2.data.datasets[0].data = totals2;
+
         myChart.update();
+        myChart2.update();
 
     }
     document.getElementById("searchView").addEventListener("click", async function() {
