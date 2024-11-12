@@ -42,9 +42,9 @@ namespace FarmaceuticaBack.Services.Implementations
             return await _stockRepository.GetStockLotesByEstablishment(id);
         }
 
-        public async Task<List<Stock>> GetStockLotesByEstablishmentAndFilter(int id, string medicamento, string lote)
+        public async Task<List<Stock>> GetStockLotesByEstablishmentAndFilter(int id, string medicamento, string lote, bool active)
         {
-            return await _stockRepository.GetStockLotesByEstablishmentAndFilter(id, medicamento, lote);
+            return await _stockRepository.GetStockLotesByEstablishmentAndFilter(id, medicamento, lote, active);
         }
 
         public async Task<bool> Update(Stock stock)

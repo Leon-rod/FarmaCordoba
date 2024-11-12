@@ -29,6 +29,7 @@ document.getElementById("btn-addLote").addEventListener("click", async function(
     const medicamento = document.getElementById("medicamento").value;
     const lote = document.getElementById("loteAddForm").value
     const fechaVencimiento = document.getElementById("dateLoteAddForm").value;
+    const active = document.getElementById("activoCheck").checked
 
 
 
@@ -37,7 +38,8 @@ document.getElementById("btn-addLote").addEventListener("click", async function(
         idMedicamentoLote: loteId,
         idMedicamento: medicamento,
         lote: lote,
-        fechaVencimiento: fechaVencimiento        
+        fechaVencimiento: fechaVencimiento,
+        activo: active        
     };
 
     await fetch("https://localhost:44379/api/MedicamentoLote", {

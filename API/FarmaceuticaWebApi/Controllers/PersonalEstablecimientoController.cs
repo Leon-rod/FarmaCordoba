@@ -61,9 +61,9 @@ namespace FarmaceuticaWebApi.Controllers
 
         [HttpGet("Filter")]
 
-        public async Task<IActionResult> GetByFilter([FromQuery] int id, [FromQuery] string? nombre, [FromQuery] string? apellido)
+        public async Task<IActionResult> GetByFilter([FromQuery] int id, [FromQuery] string? nombre, [FromQuery] string? apellido, [FromQuery] string? documento)
         {
-            List<PersonalCargosEstablecimiento> lst = await _service.GetByFilter(id, nombre, apellido);
+            List<PersonalCargosEstablecimiento> lst = await _service.GetByFilter(id, nombre, apellido, documento);
             if (lst.Count > 0)
             {
                 return Ok(lst);

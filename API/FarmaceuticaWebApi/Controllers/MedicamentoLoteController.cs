@@ -17,6 +17,25 @@ namespace FarmaceuticaWebApi.Controllers
             _medicamentoLoteService = medicamentoLoteService;
         }
 
+        [HttpDelete]
+
+        public async Task<IActionResult> Delete([FromQuery] int id)
+        {
+            try
+            {
+                if (id != 0 && id != null)
+                {
+                    var baja = await _medicamentoLoteService.Delete(id);
+                    return Ok("Se dio la baja con exito");
+                }
+                return StatusCode(500, "Debe ingresar un codigo o Uno de valor distinto a 0");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Error en el servidor");
+            }
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {

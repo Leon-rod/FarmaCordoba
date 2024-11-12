@@ -23,6 +23,11 @@ namespace FarmaceuticaBack.Services.Implementations
            return await _service.Add(oMedicamento);
         }
 
+        public async Task<bool> Delete(int id)
+        {
+            return await _service.Delete(id);
+        }
+
         public async Task<List<MedicamentosLote>> GetAll()
         {
             return await _service.GetAll();

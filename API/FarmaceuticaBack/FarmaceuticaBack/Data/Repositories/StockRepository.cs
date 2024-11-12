@@ -104,7 +104,7 @@ namespace FarmaceuticaBack.Data.Repositories
             return result;
         }
 
-        public async Task<List<Stock>> GetStockLotesByEstablishmentAndFilter(int id, string medicamento, string lote)
+        public async Task<List<Stock>> GetStockLotesByEstablishmentAndFilter(int id, string medicamento, string lote, bool active)
         {
             IQueryable<Stock> query = _context.Stocks
                                                .Include(s => s.IdMedicamentoLoteNavigation)
@@ -120,6 +120,8 @@ namespace FarmaceuticaBack.Data.Repositories
             {
                 query = query.Where(s => s.IdMedicamentoLoteNavigation.Lote.Contains(lote));
             }
+
+            query = query.Where(x => x.IdMedicamentoLoteNavigation.Activo == active);
 
             List<Stock> stocks = await query.ToListAsync();
 

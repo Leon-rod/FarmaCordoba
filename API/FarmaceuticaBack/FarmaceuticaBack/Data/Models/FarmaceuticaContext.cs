@@ -587,6 +587,7 @@ public partial class FarmaceuticaContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("LOTE");
+            entity.Property(e => e.Activo).HasColumnName("ACTIVO");
 
             entity.HasOne(d => d.IdMedicamentoNavigation).WithMany(p => p.MedicamentosLotes)
                 .HasForeignKey(d => d.IdMedicamento)
