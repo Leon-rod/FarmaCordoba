@@ -114,6 +114,7 @@ function editProduct(productId) {
 
 function showDeleteToast(productId) {
     deleteProductId = productId;
+    console.log(deleteProductId)
     const toast = new bootstrap.Toast(document.getElementById("deleteToast"));
     toast.show();
 }
@@ -121,7 +122,7 @@ function showDeleteToast(productId) {
 document.getElementById("confirmDelete").addEventListener("click", async () => {
     if (deleteProductId !== null) {
         try {
-            await fetch(`https://localhost:44379/api/Producto/${deleteProductId}`, { method: "DELETE" });
+            await fetch(`https://localhost:44379/api/Producto/?id=${deleteProductId}`, { method: "DELETE" });
             const row = document.querySelector(`tr[data-product-id="${deleteProductId}"]`);
             if (row) row.remove();
             deleteProductId = null;
