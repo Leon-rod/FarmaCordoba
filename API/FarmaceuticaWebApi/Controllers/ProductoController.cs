@@ -1,4 +1,5 @@
 ﻿using FarmaceuticaBack.Models;
+using FarmaceuticaBack.Services.Contracts;
 using FarmaceuticaBack.Services.Implementations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,14 +10,12 @@ namespace FarmaceuticaWebApi.Controllers
     [ApiController]
     public class ProductoController : ControllerBase
     {
-        private readonly ProductoService _service;
+        private readonly IProductoService _service;
 
-        public ProductoController(ProductoService service)
+        public ProductoController(IProductoService service)
         {
             _service = service;
         }
-
-        //Task<int> GetLastId();
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
@@ -75,19 +74,12 @@ namespace FarmaceuticaWebApi.Controllers
         }
 
         [HttpGet("filtros")]
-        public async Task<IActionResult> GetProdByFilters([FromQuery] string nombre, [FromQuery] int marca, [FromQuery] int tipoProd, [FromQuery] bool active)
+        public async Task<IActionResult> GetProdByFilters([FromQuery] string nombre = "",[FromQuery] int marca = 0,[FromQuery] int tipoProd = 0,[FromQuery] bool active = true)
         {
             try
             {
                 var productos = await _service.GetByFilters(nombre, marca, tipoProd, active);
-                if (productos.Count > 0)
-                {
-                    return Ok(productos);
-                }
-                else
-                {
-                    return StatusCode(500, "No hay productos");
-                }
+                return Ok(productos);                
             }
             catch (Exception e)
             {
@@ -95,8 +87,9 @@ namespace FarmaceuticaWebApi.Controllers
             }
         }
 
+
         [HttpPut]
-        public async Task<IActionResult> Update([FromQuery] Producto p)
+        public async Task<IActionResult> Update([FromBody] Producto p)
         {
             try
             {
@@ -123,7 +116,7 @@ namespace FarmaceuticaWebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Save([FromQuery] Producto producto)
+        public async Task<IActionResult> Save([FromBody] Producto producto)
         {
             try
             {

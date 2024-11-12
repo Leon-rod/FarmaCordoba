@@ -45,18 +45,18 @@ namespace FarmaceuticaBack.Data.Repositories
             {
                 query = query.Where(x => x.Nombre.Contains(nombre));
             }
-            if (marca > 0)
+            if (marca != 0)
             {
                 query = query.Where(x => x.IdMarca == marca);
             }
-            if (tipoProd > 0)
+            if (tipoProd != 0)
             {
                 query = query.Where(x => x.TipoProducto == tipoProd);
             }
 
-            query = query.Where(x => x.IdMarca == marca);
+            query = query.Where(x => x.Activo == active);
 
-            return await _context.Productos
+            return await query
                 .Include(x => x.IdMarcaNavigation)
                 .Include(x => x.TipoProductoNavigation)
                 .ToListAsync();
@@ -65,6 +65,8 @@ namespace FarmaceuticaBack.Data.Repositories
         public async Task<Producto> GetById(int id)
         {
             var producto = await _context.Productos
+                .Include(x => x.IdMarcaNavigation)
+                .Include(x => x.TipoProductoNavigation)
                 .FirstOrDefaultAsync(x => x.IdProducto == id);
             return producto;
         }
@@ -86,6 +88,7 @@ namespace FarmaceuticaBack.Data.Repositories
                 p.TipoProducto = producto.TipoProducto;
                 p.Descripcion = producto.Descripcion;
                 p.Precio = producto.Precio;
+                p.Activo = producto.Activo;
             }
             return await _context.SaveChangesAsync() > 0;
         }

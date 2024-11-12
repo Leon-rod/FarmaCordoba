@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function() {
         data: {
             labels: [],
             datasets: [{
-                label: 'Importes a reintegrar',
+                label: 'Importes a reintegrar por obra social por mes',
                 data: [],
                 borderWidth: 1
             }]
@@ -32,6 +32,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         }
     });
+
 
 
 
@@ -50,13 +51,14 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function updateChart(data) {
-        const labels = data.map(item => item.obraSocial); 
+        const labels = data.map(item => item.obraSocial + ', ' + item.mes + '-' + item.año); 
         const totals = data.map(item => item.importeAReintegrar);
 
         myChart.data.labels = labels;
         myChart.data.datasets[0].data = totals;
 
         myChart.update();
+
 
     }
     document.getElementById("searchView").addEventListener("click", async function() {
