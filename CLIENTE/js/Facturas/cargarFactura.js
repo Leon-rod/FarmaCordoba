@@ -232,7 +232,7 @@ async function realizarFactura() {
             input.type = 'number';
             input.classList.add('form-control');
             input.id = 'paymentDetail' + i;
-            input.placeholder = 'Ingrese el monto del tipo de pago';
+            input.placeholder = 'Ingrese el porcentaje del tipo de pago';
             
             methodDiv.appendChild(inputLabel);
             methodDiv.appendChild(select);
@@ -242,17 +242,102 @@ async function realizarFactura() {
         }
     });
     
-    document.getElementById('confirmButton').addEventListener('click', function() {
-        let methods = [];
-        let count = parseInt(document.getElementById('paymentMethodsCount').value);
+    document.getElementById('confirmButton').addEventListener('click',async function() {
+        const facturaData = {
+            idFactura: document.getElementById("facturaId").value,
+            idCliente: document.getElementById("cliente").value,
+            idPersonalCargosEstablecimientos: document.getElementById("empleado").value,
+            fecha: document.getElementById("fecha").value
+        };
     
-        for (let i = 0; i < count; i++) {
-          let method = document.getElementById('paymentMethod' + i).value;
-          let detail = document.getElementById('paymentDetail' + i).value;
-          methods.push({ method, detail });
+        const facturaResponse = await fetch("https://localhost:44379/api/Factura", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(facturaData)
+        });
+    
+        if (facturaResponse.ok) {
+            for(var detalle of dispensaciones) {
+                try {
+                    const detalleResponse = await fetch("https://localhost:44379/api/Dispensacion", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            idFactura: detalle.idFactura,
+                            idDispensacion: detalle.idDispensacion,
+                            idMedicamentoLote: detalle.idMedicamentoLote,
+                            idCobertura: detalle.idCobertura,
+                            descuento: detalle.descuento,
+                            precioUnitario: detalle.precioUnitario,
+                            cantidad: detalle.cantidad,
+                            matricula: detalle.matricula,
+                            codigoValidacion: detalle.codigoValidacion
+                        })
+                    });
+                    if (!detalleResponse.ok) {
+                        mostrarToast("Error al enviar una dispensacion (id: " + detalle.idDispensacion + ") " + "Status: "+detalleResponse.status, "bg-danger");
+                    }
+                } catch (error) {
+                    mostrarToast("Error al intentar conectar con el servidor " + error, "bg-danger");
+                }
+            }
+
+            const responseTiposPagos = await fetch('https://localhost:44379/api/FacturaTipoPago');
+            const tiposPagos = await responseTiposPagos.json();
+            let idFacturaTipoPago = parseInt(tiposPagos) + 1;
+
+
+            let methods = [];
+            let count = parseInt(document.getElementById('paymentMethodsCount').value);
+
+    
+            for (let i = 0; i < count; i++) {
+              let idTipoPago = document.getElementById('paymentMethod' + i).value;
+              let porcentajePago = document.getElementById('paymentDetail' + i).value;
+              let esCuotas = false;
+              let cantidadCuotas = null;
+              methods.push({ idFacturaTipoPago, idFactura, idTipoPago, porcentajePago, esCuotas, cantidadCuotas });
+              idFacturaTipoPago++;
+            }
+            for (var method of methods) {
+                const facturaTipoPagoResponse = await fetch("https://localhost:44379/api/FacturaTipoPago", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(method)
+                })
+                if (!facturaTipoPagoResponse.ok) {
+                    mostrarToast("Error al enviar un tipo de pago " + "Status: "+facturaTipoPagoResponse.status, "bg-danger");
+                }
+            }
+    
+    
+            const toastElement = document.getElementById("facturaToast");
+            const toast = new bootstrap.Toast(toastElement);
+            toast.show();
+    
+    
+            document.getElementById("empleado").value = "";
+            document.getElementById("cliente").value = "";
+            document.getElementById("fecha").value = "";
+    
+    
+            dispensaciones = [];
+            idDetalleFactura = 1;
+            document.getElementById("detalleId").value = idDetalleFactura;
+            actualizarTablaDetalles();
+            
+    
+            ObtenerUltimoId();
+            SetearFecha();
+    
+        } else {
+            mostrarToast("Error al enviar la factura " + "Status: "+facturaResponse.status, "bg-danger");
         }
+
+
+        
+
     
-        console.log(methods);
     });
 
     const modal = new bootstrap.Modal(document.getElementById('paymentMethodsModal'), {
@@ -264,68 +349,7 @@ async function realizarFactura() {
 
       // ------------------------------------------------------
 
-    const facturaData = {
-        idFactura: document.getElementById("facturaId").value,
-        idCliente: document.getElementById("cliente").value,
-        idPersonalCargosEstablecimientos: document.getElementById("empleado").value,
-        fecha: document.getElementById("fecha").value
-    };
-
-    const facturaResponse = await fetch("https://localhost:44379/api/Factura", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(facturaData)
-    });
-
-    if (facturaResponse.ok) {
-        for(var detalle of dispensaciones) {
-            try {
-                const detalleResponse = await fetch("https://localhost:44379/api/Dispensacion", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        idFactura: detalle.idFactura,
-                        idDispensacion: detalle.idDispensacion,
-                        idMedicamentoLote: detalle.idMedicamentoLote,
-                        idCobertura: detalle.idCobertura,
-                        descuento: detalle.descuento,
-                        precioUnitario: detalle.precioUnitario,
-                        cantidad: detalle.cantidad,
-                        matricula: detalle.matricula,
-                        codigoValidacion: detalle.codigoValidacion
-                    })
-                });
-                if (!detalleResponse.ok) {
-                    mostrarToast("Error al enviar una dispensacion (id: " + detalle.idDispensacion + ") " + "Status: "+detalleResponse.status, "bg-danger");
-                }
-            } catch (error) {
-                mostrarToast("Error al intentar conectar con el servidor " + error, "bg-danger");
-            }
-        }
-
-
-        const toastElement = document.getElementById("facturaToast");
-        const toast = new bootstrap.Toast(toastElement);
-        toast.show();
-
-
-        document.getElementById("empleado").value = "";
-        document.getElementById("cliente").value = "";
-        document.getElementById("fecha").value = "";
-
-
-        dispensaciones = [];
-        idDetalleFactura = 1;
-        document.getElementById("detalleId").value = idDetalleFactura;
-        actualizarTablaDetalles();
-        
-
-        ObtenerUltimoId();
-        SetearFecha();
-
-    } else {
-        mostrarToast("Error al enviar la factura " + "Status: "+facturaResponse.status, "bg-danger");
-    }
+    
 }
 
 function CalcularSubtotal() {

@@ -10,5 +10,6 @@ namespace FarmaceuticaBack.Data.Contracts
     public interface IFacturaTipoPagoRepository
     {
         Task<bool> Insert(FacturasTiposPago facturasTiposPago);
+        Task<int> GetLastId();
     }
 }

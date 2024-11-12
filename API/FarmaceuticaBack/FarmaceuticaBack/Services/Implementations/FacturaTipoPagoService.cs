@@ -16,6 +16,12 @@ namespace FarmaceuticaBack.Services.Implementations
         {
             this._repository = repository;
         }
+
+        public Task<int> GetLastId()
+        {
+            return _repository.GetLastId();
+        }
+
         public async Task<bool> Insert(FacturasTiposPago facturasTiposPago)
         {
             return await _repository.Insert(facturasTiposPago);

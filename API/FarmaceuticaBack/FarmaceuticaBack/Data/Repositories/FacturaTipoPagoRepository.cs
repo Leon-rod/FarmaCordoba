@@ -1,5 +1,6 @@
 ﻿using FarmaceuticaBack.Data.Contracts;
 using FarmaceuticaBack.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,13 @@ namespace FarmaceuticaBack.Data.Repositories
         {
             this._context = context;
         }
+
+        public async Task<int> GetLastId()
+        {
+            int id = await _context.FacturasTiposPagos.MaxAsync(f => f.IdFacturaTipoPago);
+            return id;
+        }
+
         public async Task<bool> Insert(FacturasTiposPago facturasTiposPago)
         {
             bool result = false;
