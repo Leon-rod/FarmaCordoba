@@ -1,6 +1,6 @@
 --- TERMINADO
 
-
+go
 CREATE TRIGGER DIS_VERIFICAR_STOCK_VENTA
 ON DISPENSACIONES
 INSTEAD OF INSERT
@@ -78,10 +78,10 @@ AS
 								END
 			END
 
+go
 
 
-
-
+go
 -------------------------------------------------------
 ---- TERMINADO
 CREATE TRIGGER DIS_ACTUALIZAR_INVENTARIO_VENTA
@@ -122,7 +122,9 @@ BEGIN
 END
 
 
+go
 
+go
 -------------------------------------------------------
 --- TERMINADO
 CREATE TRIGGER DIS_ACTUALIZAR_STOCK_OTROS
@@ -147,7 +149,7 @@ BEGIN
 		END
 
 END
-
+go
 --- MODIFICADOR sirve para darle el signo correspondiente a la suma. Actualmente este trigger esta pensado para roturas, vencimientos etc osea todos -1 pero para pensarlo de forma
 -- escalable, por si en un futuro tenemos otro tipo de movimiento que sume, lo decidimos usar como una variable.
 
@@ -164,6 +166,8 @@ END
 --	- Cantidad: Valor proveniente del detalle_pedido
 --	- Cantidad_Minima: Valor 200 por defecto (SUJETO A CAMBIO!!!)
 --Una vez insertado el stock, procedera a insertar a inventario haciendo referencia a ese nuevo stock
+
+go
 CREATE TRIGGER DIS_REPONER_ARTICULO
 ON DETALLES_PEDIDOS
 FOR INSERT
@@ -271,7 +275,9 @@ BEGIN
 END
 
 
+go
 
+go
 
 -----------------------------------------------------------
 
@@ -341,6 +347,9 @@ BEGIN
 		END
 END
 
+go
+
+go
 
 
 
@@ -405,3 +414,4 @@ BEGIN
 END
 
 
+go

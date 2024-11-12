@@ -1,3 +1,5 @@
+go
+
 CREATE VIEW V_TOTALES_FACTURADOS_VENDEDORES
 AS	
 	
@@ -22,13 +24,13 @@ AS
 														WHERE SBC.ID_PERSONAL_1 = F.ID_PERSONAL_CARGOS_ESTABLECIMIENTOS)
 
 
----------------------------------------------------------------------------------------------------------------------------
+go---------------------------------------------------------------------------------------------------------------------------
 
 
 ---------------------------------------------------------------------------------------------------------------------------	
-	
+go
 
-ALTER VIEW V_REPORTE_MENSUAL_OBRA_SOCIAL
+CREATE VIEW V_REPORTE_MENSUAL_OBRA_SOCIAL
 AS
 Select OS.NOMBRE 'Obra_Social',
 	SUM(CASE
@@ -44,5 +46,5 @@ JOIN Facturas f ON d.ID_FACTURA = f.ID_FACTURA
 
 GROUP BY OS.NOMBRE, YEAR(f.fecha) ,MONTH(f.FECHA)
 
-select * from V_REPORTE_MENSUAL_OBRA_SOCIAL
-where Obra_Social like '%das%'
+
+GO

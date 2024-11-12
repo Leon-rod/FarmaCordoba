@@ -34,7 +34,8 @@ AS
 BEGIN
 	IF(@año IS NULL)
 		BEGIN
-			select E.ID_ESTABLECIMIENTO,e.NOMBRE 'Establecimiento', FORMAT(SUM(d.CANTIDAD * (d.PRECIO_UNITARIO - (d.PRECIO_UNITARIO * d.DESCUENTO))), 'N2') 'Total facturado'
+			select E.ID_ESTABLECIMIENTO,e.NOMBRE 'Establecimiento',  CAST(SUM(d.CANTIDAD * (d.PRECIO_UNITARIO - (d.PRECIO_UNITARIO * d.DESCUENTO))) AS DECIMAL(10,2)) AS 'Total facturado'
+
 				,(select '$' + FORMAT(SCMA.Facturado, 'N2') + ', año ' + CAST(SCMA.Año AS VARCHAR(5)) from
 
 						(select top 1 year(f.FECHA) 'Año' , e1.NOMBRE, SUM(d.CANTIDAD * (d.PRECIO_UNITARIO - (d.PRECIO_UNITARIO * d.DESCUENTO))) 'Facturado'  from FACTURAS f 	
@@ -54,7 +55,8 @@ BEGIN
 		END			
 	ELSE
 		BEGIN
-			select E.ID_ESTABLECIMIENTO,e.NOMBRE 'Establecimiento', FORMAT(SUM(d.CANTIDAD * (d.PRECIO_UNITARIO - (d.PRECIO_UNITARIO * d.DESCUENTO))), 'N2') 'Total facturado'
+			select E.ID_ESTABLECIMIENTO,e.NOMBRE 'Establecimiento', CAST(SUM(d.CANTIDAD * (d.PRECIO_UNITARIO - (d.PRECIO_UNITARIO * d.DESCUENTO))) AS DECIMAL(10,2)) AS 'Total facturado'
+
 				,(select '$' + FORMAT(SCMA.Facturado, 'N2') + ', año ' + CAST(SCMA.Año AS VARCHAR(5)) from
 
 						(select top 1 year(f.FECHA) 'Año' , e1.NOMBRE, SUM(d.CANTIDAD * (d.PRECIO_UNITARIO - (d.PRECIO_UNITARIO * d.DESCUENTO))) 'Facturado'  from FACTURAS f 	
@@ -73,6 +75,7 @@ BEGIN
 				group by  E.ID_ESTABLECIMIENTO, e.NOMBRE
 		END
 END
+
 
 
 
@@ -135,6 +138,8 @@ AS
 								  HAVING M.PRECIO > (SELECT AVG(M1.PRECIO)
 								  				   FROM MEDICAMENTOS M1)) SBC1)
 	END
+
+	exec SP_MEDICAMENTOS_BAJO_MOVIMIENTOS
 
 
 --4

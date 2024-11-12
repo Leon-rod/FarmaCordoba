@@ -2,6 +2,7 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using FarmaceuticaBack.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace FarmaceuticaBack.Models;
@@ -90,6 +91,8 @@ public partial class FarmaceuticaContext : DbContext
     public virtual DbSet<VTotalesFacturadosFarmacia> VTotalesFacturadosFarmacias { get; set; }
 
     public virtual DbSet<VTotalesFacturadosVendedore> VTotalesFacturadosVendedores { get; set; }
+
+    public DbSet<SPTotalesFarmacia> SPTotalesFarmacia { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -1098,7 +1101,12 @@ public partial class FarmaceuticaContext : DbContext
 
 
 
-        OnModelCreatingPartial(modelBuilder);
+        modelBuilder.Entity<SPTotalesFarmacia>().HasNoKey();
+ 
+
+
+
+    OnModelCreatingPartial(modelBuilder);
 
 
     }
