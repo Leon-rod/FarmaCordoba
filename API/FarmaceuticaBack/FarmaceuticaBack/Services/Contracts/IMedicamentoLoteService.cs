@@ -14,5 +14,7 @@ namespace FarmaceuticaBack.Services.Contracts
         Task<bool> Add(MedicamentosLote oMedicamento);
         Task<int> GetLastId();
 
+        Task<bool> Delete(int id);
+
     }
 }

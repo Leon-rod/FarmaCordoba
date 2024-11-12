@@ -24,6 +24,18 @@ namespace FarmaceuticaBack.Data.Repositories
             return await _context.SaveChangesAsync() > 0;
         }
 
+        public async Task<bool> Delete(int id)
+        {
+            var oLote = await _context.MedicamentosLotes.FindAsync(id);
+            if (oLote != null)
+            {
+                oLote.Activo = false;
+                _context.Update(oLote);
+                return await _context.SaveChangesAsync() > 0;
+            }
+            return false;
+        }
+
         public async Task<List<MedicamentosLote>> GetAll()
         {
             var medicamentos = await _context.MedicamentosLotes.Include(p => p.IdMedicamentoNavigation).ToListAsync();

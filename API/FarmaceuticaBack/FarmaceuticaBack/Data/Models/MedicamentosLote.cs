@@ -15,6 +15,9 @@ public partial class MedicamentosLote
     public string Lote { get; set; }
 
     public DateOnly FechaVencimiento { get; set; }
+
+    public bool Activo { get; set; }
+
     [JsonIgnore]
     public virtual ICollection<DetallesPedido> DetallesPedidos { get; set; } = new List<DetallesPedido>();
     [JsonIgnore]

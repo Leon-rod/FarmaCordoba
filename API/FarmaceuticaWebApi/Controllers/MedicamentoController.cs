@@ -79,7 +79,7 @@ namespace FarmaceuticaWebApi.Controllers
         {
             try
             {
-                if (id != 0 || id != null)
+                if (id != 0 && id != null)
                 {
                     var baja = await _service.Delete(id);
                     return Ok("Se dio la baja con exito");

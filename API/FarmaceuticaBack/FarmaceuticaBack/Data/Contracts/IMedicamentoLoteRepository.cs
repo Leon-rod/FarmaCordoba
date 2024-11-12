@@ -15,5 +15,7 @@ namespace FarmaceuticaBack.Data.Contracts
 
         Task<int> GetLastId();
 
+        Task<bool> Delete(int id);
+
     }
 }

@@ -1,5 +1,5 @@
 import { ShowResult, ShowResultError } from '../Utils/toast.js';
-import { mapLote } from './auxLotes.js';
+import { mapLote, deleteLote } from './auxLotes.js';
 
 document.addEventListener("DOMContentLoaded", function() {
 
@@ -7,16 +7,33 @@ document.addEventListener("DOMContentLoaded", function() {
     const lote = document.getElementById("lote")
     const medicamento = document.getElementById("nombreComercial")
 
+    let loteIdToDelete = null;
+    const deleteConfirmModal = new bootstrap.Modal(document.getElementById("deleteConfirmModal"));
+    const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
+
+
+    function setLoteIdToDelete(id) {
+      loteIdToDelete = id;
+  }
+
+  confirmDeleteBtn.addEventListener("click", async () => {
+    if (loteIdToDelete) {
+        await deleteLote(loteIdToDelete);
+        deleteConfirmModal.hide();
+        loadLotes(); 
+    }
+});
+
 
     async function loadLotes() {
-        await fetch(`https://localhost:44379/Establishment/Lotes/Filter?id=${establecimiento}`)
+        await fetch(`https://localhost:44379/Establishment/Lotes/Filter?id=${establecimiento}&active=true`)
             .then(response => response.json())
             .then(data => {
                 const tableBody = document.getElementById("tableBody");
                 tableBody.innerHTML = ""; 
-                
+                console.log(data)
                 data.forEach(lote => {
-                    mapLote(lote);
+                    mapLote(lote, deleteConfirmModal, setLoteIdToDelete);
                 });
             })
             .catch(error => console.error("Error al obtener los datos:", error));
@@ -26,13 +43,14 @@ document.addEventListener("DOMContentLoaded", function() {
         const filtros = {
             Medicamento: document.getElementById("nombreComercial").value,
             Lote: document.getElementById("lote").value,
+            active: document.getElementById("active").checked 
 
         };
 
         console.log(filtros)
     
             
-        await fetch(`https://localhost:44379/Establishment/Lotes/Filter?id=${establecimiento}&lote=${filtros.Lote}&medicamento=${filtros.Medicamento}`, {
+        await fetch(`https://localhost:44379/Establishment/Lotes/Filter?id=${establecimiento}&lote=${filtros.Lote}&medicamento=${filtros.Medicamento}&active=${filtros.active}`, {
             method: "GET",
             headers: { "Content-Type": "application/json" }
         })
@@ -40,8 +58,9 @@ document.addEventListener("DOMContentLoaded", function() {
         .then(data => {
             const tableBody = document.getElementById("tableBody");
             tableBody.innerHTML = "";
+            console.log(data)
             data.forEach(lote => {
-                mapLote(lote);
+                mapLote(lote, deleteConfirmModal, setLoteIdToDelete);
             });
         })
         .catch(error => console.error("Error al obtener los datos filtrados:", error));

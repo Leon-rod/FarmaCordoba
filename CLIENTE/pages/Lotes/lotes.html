@@ -71,8 +71,14 @@
                 <input type="text" class="form-control" id="lote">
             </div>
 
+            <div class="col-md-1">
+                <label for="presentaciones">Activo</label>
 
-            <div class="col-md-4 d-flex justify-content-end">
+                <input type="checkbox" id="active" checked>
+            </div>
+
+
+            <div class="col-md-3 d-flex justify-content-end">
                 <button class="btn btn-primary" id="searchLote">Buscar</button>
             </div>
         </div>
@@ -82,9 +88,11 @@
             <table class="table  med-table table-striped">
                 <thead>
                     <tr>
-                        <th scope="col" class="">Medicamento</th>
-                        <th scope="col" class="">Lote</th>
-                        <th scope="col" class="">Fecha vencimiento</th>
+                        <th scope="col" class="text-center">Medicamento</th>
+                        <th scope="col" class="text-center">Lote</th>
+                        <th scope="col" class="text-center">Fecha vencimiento</th>
+                        <th scope="col" class="text-center">Activo</th>
+                        <th scope="col" class="text-center">Acciones</th>
                     </tr>
                 </thead>
                 
@@ -108,7 +116,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              ¿Estás seguro de que deseas inactivar este medicamento?
+              ¿Estás seguro de que deseas inactivar este lote?
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
