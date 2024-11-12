@@ -51,6 +51,7 @@ function CargarNav(){
                                 <li><a class="dropdown-item" href="../Medicamentos/medicamentos.html">Medicamentos</a></li>
                                 <li><a class="dropdown-item" href="../Stock/stock.html">Stock</a></li>
                                 <li><a class="dropdown-item" href="../Lotes/lotes.html">Lotes</a></li>
+                                <li><a class="dropdown-item" href="../Personal/personal.html">Gestión usuarios</a></li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">

@@ -14,7 +14,7 @@ namespace FarmaceuticaBack.Services.Contracts
 
         Task<List<PersonalCargosEstablecimiento>> GetByEstablishment(int id);
 
-        Task<List<PersonalCargosEstablecimiento>> GetByFilter(int id, string nombre, string apellido);
+        Task<List<PersonalCargosEstablecimiento>> GetByFilter(int id, string nombre, string apellido, string documento);
 
         Task<bool> Add(PersonalCargosEstablecimiento oPersonal);
 
