@@ -1,5 +1,6 @@
 ﻿using FarmaceuticaBack.Data.Contracts;
 using FarmaceuticaBack.Models;
+using FarmaceuticaBack.Services.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FarmaceuticaBack.Services.Implementations
 {
-    public class TipoProductoService
+    public class TipoProductoService : ITipoProductoService
     {
         private readonly ITipoProductoRepository _repository;
 
@@ -21,5 +22,6 @@ namespace FarmaceuticaBack.Services.Implementations
         {
             return await _repository.GetAll();
         }
+
     }
 }
