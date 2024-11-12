@@ -101,6 +101,9 @@ builder.Services.AddScoped<ICargoService, CargoService>();
 builder.Services.AddScoped<IPersonalRepository, PersonalRepository>();
 builder.Services.AddScoped<IPersonalService, PersonalService>();
 
+builder.Services.AddScoped<ITipoProductoRepository, TipoProductoRepository>();
+builder.Services.AddScoped<ITipoProductoService, TipoProductoService>();
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
