@@ -49,6 +49,7 @@ function CargarNav(){
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Soporte</a>
                             <ul class="dropdown-menu dropdown-menu-dark">
                                 <li><a class="dropdown-item" href="../Medicamentos/medicamentos.html">Medicamentos</a></li>
+                                <li><a class="dropdown-item" href="../Productos/producto.html">Productos</a></li>
                                 <li><a class="dropdown-item" href="../Stock/stock.html">Stock</a></li>
                                 <li><a class="dropdown-item" href="../Lotes/lotes.html">Lotes</a></li>
                                 <li><a class="dropdown-item" href="../Personal/personal.html">Gestión usuarios</a></li>

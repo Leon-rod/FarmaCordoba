@@ -107,6 +107,8 @@ builder.Services.AddScoped<ITipoProductoService, TipoProductoService>();
 builder.Services.AddScoped<IFacturaTipoPagoRepository, FacturaTipoPagoRepository>();
 builder.Services.AddScoped<IFacturaTipoPagoService, FacturaTipoPagoService>();
 
+builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
+builder.Services.AddScoped<IProductoService, ProductoService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
