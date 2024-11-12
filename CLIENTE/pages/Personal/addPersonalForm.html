@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="icon" href="/images/logoHead.jfif" type="image/png">
+    <title>Formulario de alta medicamento</title>
+</head>
+<body>
+
+    <nav class="navbar navbar-dark bg-dark navbar-container">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="#">FarmaCórdoba</a>
+        
+            <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Menú de opciones</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-header d-flex flex-column align-items-center py-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"></path>
+                        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"></path>
+                    </svg>
+                    <div class="text-center mt-2">
+                        <p class="mb-0 text-white" id="userName"></p>
+                        <p class="mb-0 small" id="userRol"></p>
+                    </div>
+                </div>
+                
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3" id="container__navBar">
+                        <li class="nav-item ">
+                            <a class="nav-link " href="../../../index.html" role="button" >Volver al Indice</a>
+                        </li>
+                    </ul>
+                    <div class="text-center mt-auto mb-3" id="offcanvas-body">
+                        <button class="btn btn-danger" id="logoutButton">Cerrar sesión</button>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+    
+      <main class="main mb-3">
+        <div class="container mx-auto">
+            <div class="title-container text-start my-4 pt-5 mt-6">
+                <h2>Formulario de alta Personal</h2>
+            </div>
+    
+            <article class="medAddForm-container border rounded-2 p-3">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="name" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="name" placeholder="">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="lastName" class="form-label">Apellido</label>
+                        <input type="text" class="form-control" id="lastName" placeholder="">
+                    </div>
+                </div>
+            
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="fechaNac" class="form-label">Fecha nacimiento</label>
+                        <input type="date" class="form-control" id="fechaNac" placeholder="">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="cargo" class="form-label">Cargo</label>
+                        <select class="form-select" id="cargo"></select>
+                    </div>
+                </div>
+            
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="calle" class="form-label">Calle</label>
+                        <input type="text" class="form-control" id="calle" placeholder="">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="numeroCalle" class="form-label">Numero calle</label>
+                        <input type="text" class="form-control" id="numeroCalle" placeholder="">
+                    </div>
+                </div>
+            
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="barrio" class="form-label">Barrio</label>
+                        <select class="form-select" id="barrio"></select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="tipoDoc" class="form-label">Tipo documento</label>
+                        <select class="form-select" id="tipoDoc"></select>
+                    </div>
+                </div>
+            
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="numeroDoc" class="form-label">Numero documento</label>
+                        <input type="text" class="form-control" id="numeroDoc" placeholder="">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="genero" class="form-label">Género</label>
+                        <select class="form-select" id="genero"></select>
+                    </div>
+                </div>
+            
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="contraseña" class="form-label">Contraseña</label>
+                        <input type="text" class="form-control" id="contraseña" placeholder="">
+                    </div>
+                </div>
+            </article>
+            
+    
+            <article class="button-confirmAdd-container text-center mt-4">
+                <button type="button" class="btn btn-primary addMed" id="btn-addPersonal">
+                    Agregar +
+                </button>
+            </article>
+        </div>
+    </main>
+
+    <footer class="d-flex flex-wrap justify-content-between align-items-center border-top text-center">
+        <p class="col-md-4 mb-0 text-body-secondary text-center w-100">© 2024 FarmaCórdoba, UTN</p>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script  type="module" src="/js/Personal/addPersonal.js"></script>
+    <script src="../../js/Utils/rolesNav.js"></script>
+</body>
+</html>

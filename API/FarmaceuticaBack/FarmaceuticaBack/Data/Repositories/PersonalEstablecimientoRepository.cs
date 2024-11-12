@@ -42,7 +42,7 @@ namespace FarmaceuticaBack.Data.Repositories
                                     .ToListAsync();
         }
 
-        public async Task<List<PersonalCargosEstablecimiento>> GetByFilter(int id, string nombre, string apellido)
+        public async Task<List<PersonalCargosEstablecimiento>> GetByFilter(int id, string nombre, string apellido, string documento)
         {
             IQueryable<PersonalCargosEstablecimiento> query = _context.PersonalCargosEstablecimientos
                                    .Include(s => s.IdPersonalNavigation)
@@ -57,6 +57,11 @@ namespace FarmaceuticaBack.Data.Repositories
             if (!string.IsNullOrEmpty(apellido))
             {
                 query = query.Where(s => s.IdPersonalNavigation.Apellido.Contains(apellido));
+            }
+
+            if (!string.IsNullOrEmpty(documento))
+            {
+                query = query.Where(s => s.IdPersonalNavigation.NroDoc.Contains(documento));
             }
 
             List<PersonalCargosEstablecimiento> lst = await query.ToListAsync();

@@ -32,9 +32,9 @@ namespace FarmaceuticaBack.Services.Implementations
             return await _repository.GetByEstablishment(id);
         }
 
-        public async Task<List<PersonalCargosEstablecimiento>> GetByFilter(int id, string nombre, string apellido)
+        public async Task<List<PersonalCargosEstablecimiento>> GetByFilter(int id, string nombre, string apellido, string documento)
         {
-            return await _repository.GetByFilter(id, nombre, apellido); 
+            return await _repository.GetByFilter(id, nombre, apellido, documento); 
         }
 
         public async Task<PersonalCargosEstablecimiento> GetById(int id)
