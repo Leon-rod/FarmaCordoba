@@ -112,22 +112,44 @@ function editProduct(productId) {
     window.location.href = `/pages/Productos/EditProducto.html?id=${productId}`;
 }
 
+const toast = new bootstrap.Toast(document.getElementById("deleteToast"));
+
 function showDeleteToast(productId) {
     deleteProductId = productId;
     console.log(deleteProductId)
-    const toast = new bootstrap.Toast(document.getElementById("deleteToast"));
+    
     toast.show();
 }
-
-document.getElementById("confirmDelete").addEventListener("click", async () => {
+async function deleteProduct() {
     if (deleteProductId !== null) {
         try {
             await fetch(`https://localhost:44379/api/Producto/?id=${deleteProductId}`, { method: "DELETE" });
             const row = document.querySelector(`tr[data-product-id="${deleteProductId}"]`);
             if (row) row.remove();
             deleteProductId = null;
+            const tableBody = document.getElementById("tableBody");
+            const response = await fetch("https://localhost:44379/api/Producto");
+            const data = await response.json();
+            populateTable(data, tableBody);
+            toast.hide();
+            mostrarToast("Producto eliminado correctamente.");
         } catch (error) {
             console.error("Error al eliminar producto:", error);
         }
     }
-});
+}
+
+document.getElementById("confirmDelete").addEventListener("click", deleteProduct);
+
+function mostrarToast(mensaje, color = 'bg-success') {
+    const toastElement = document.getElementById("facturaToast");
+    const toastMessage = document.getElementById("toastMessage");
+
+
+    toastMessage.textContent = mensaje;
+    toastElement.className = `toast align-items-center text-white ${color} border-0`;
+
+
+    const toast = new bootstrap.Toast(toastElement);
+    toast.show();
+}
