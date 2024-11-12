@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <td>${item.cantidad}</td>
                 <td>${item.cantidadMinima}</td>
                 <td>${item.idProductoNavigation ? item.idProductoNavigation.nombre : item.idMedicamentoLoteNavigation.idMedicamentoNavigation.nombreComercial}</td>
-                <td>${item.idEstablecimiento}</td>
+                <td>${item.idEstablecimientoNavigation.nombre}</td>
             `;
             tableBody.appendChild(row);
         });
