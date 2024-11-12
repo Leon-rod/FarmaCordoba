@@ -241,9 +241,11 @@ async function CargarMetodosPagos(){
             methodDiv.appendChild(select);
             methodDiv.appendChild(input);
             container.appendChild(methodDiv);
-        }
-    }
 
+        } 
+        
+    }
+    validatePaymentDetails();
     modal.show();
 }
 async function SubirFactura() {
@@ -332,6 +334,7 @@ async function SubirFactura() {
 
         document.getElementById("paymentMethodsCount").removeEventListener('input', CargarMetodosPagos);
         document.getElementById("confirmButton").removeEventListener('click', SubirFactura);
+        document.getElementById('paymentMethodsCount').removeEventListener('input', validatePaymentDetails);
 
         actualizarTablaDetalles();
         
@@ -345,14 +348,11 @@ async function SubirFactura() {
 async function realizarFactura() {
     document.getElementById('paymentMethodsCount').addEventListener('input', CargarMetodosPagos);
     document.getElementById('confirmButton').addEventListener('click',SubirFactura);
-
+    
 
     modal.show();
 
 }
-// function CerrarModal(modal){
-//     modal.hide();
-// }
 
 function CalcularSubtotal() {
     const precioUnitario = document.getElementById('detallePrecio').value;
@@ -384,4 +384,37 @@ function mostrarToast(mensaje, color = 'bg-success') {
 
     const toast = new bootstrap.Toast(toastElement);
     toast.show();
+}
+function validatePaymentDetails() {
+    const paymentMethodsCount = parseInt(document.getElementById('paymentMethodsCount').value, 10);
+    
+    
+
+    for (let i = 0; i < paymentMethodsCount; i++) {
+        const paymentDetailInput = document.getElementById(`paymentDetail${i}`);
+        paymentDetailInput.addEventListener('input',ValidarPorcentajes);
+    }
+}
+function ValidarPorcentajes(){
+    const paymentMethodsCount = parseInt(document.getElementById('paymentMethodsCount').value, 10);
+    let totalPercentage = 0;
+    let isValid = true;
+    
+    for (i = 0; i< paymentMethodsCount;i++){
+        const paymentDetailInput = document.getElementById(`paymentDetail${i}`);
+    
+        const percentage = parseFloat(paymentDetailInput.value) || 0; 
+            
+        totalPercentage += percentage;
+            
+        if (isNaN(percentage) || percentage < 0 || percentage > 100) {
+            isValid = false;
+        }
+    }
+    const confirmButton = document.getElementById('confirmButton');
+    if (isValid && totalPercentage === 100) {
+        confirmButton.disabled = false;
+    } else {
+        confirmButton.disabled = true; 
+    }
 }
