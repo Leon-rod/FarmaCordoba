@@ -281,6 +281,34 @@ async function realizarFactura() {
                     mostrarToast("Error al intentar conectar con el servidor " + error, "bg-danger");
                 }
             }
+
+            const responseTiposPagos = await fetch('https://localhost:44379/api/FacturaTipoPago');
+            const tiposPagos = await responseTiposPagos.json();
+            let idFacturaTipoPago = parseInt(tiposPagos) + 1;
+
+
+            let methods = [];
+            let count = parseInt(document.getElementById('paymentMethodsCount').value);
+
+    
+            for (let i = 0; i < count; i++) {
+              let idTipoPago = document.getElementById('paymentMethod' + i).value;
+              let porcentajePago = document.getElementById('paymentDetail' + i).value;
+              let esCuotas = false;
+              let cantidadCuotas = null;
+              methods.push({ idFacturaTipoPago, idFactura, idTipoPago, porcentajePago, esCuotas, cantidadCuotas });
+              idFacturaTipoPago++;
+            }
+            for (var method of methods) {
+                const facturaTipoPagoResponse = await fetch("https://localhost:44379/api/FacturaTipoPago", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(method)
+                })
+                if (!facturaTipoPagoResponse.ok) {
+                    mostrarToast("Error al enviar un tipo de pago " + "Status: "+facturaTipoPagoResponse.status, "bg-danger");
+                }
+            }
     
     
             const toastElement = document.getElementById("facturaToast");
@@ -307,25 +335,8 @@ async function realizarFactura() {
         }
 
 
-        const responseTiposPagos = await fetch('https://localhost:44379/api/FacturaTipoPago');
-        const tiposPagos = await responseTiposPagos.json();
-        let idFacturaTipoPago = parseInt(tiposPagos) + 1;
-        console.log(idFacturaTipoPago);
-
-
-        let methods = [];
-        let count = parseInt(document.getElementById('paymentMethodsCount').value);
-
-    
-        for (let i = 0; i < count; i++) {
-          let idTipoPago = document.getElementById('paymentMethod' + i).value;
-          let porcentajePago = document.getElementById('paymentDetail' + i).value;
-          let esCuotas = false;
-          let cantidadCuotas = null;
-          methods.push({ idFacturaTipoPago, idFactura, idTipoPago, porcentajePago, esCuotas, cantidadCuotas });
-          idFacturaTipoPago++;
-        }
         
+
     
     });
 
