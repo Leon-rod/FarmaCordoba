@@ -2,16 +2,15 @@ html{
     overflow: hidden; 
 }
 body {
-    background:linear-gradient(45deg,rgb(16, 16, 109),rgb(8, 88, 8));
+    background-color: white;
     height: 90vh;
 }
 .login-container {
     max-width: 25rem ;
     margin: 100px auto;
     padding: 20px;
-    background: linear-gradient(45deg, #4A90E2, #50E3C2); 
+    background-color: #007FFF; 
     border-radius: 10px;
-    box-shadow: 0 2px 10px rgb(57, 122, 77);
     color: white; 
 
 }

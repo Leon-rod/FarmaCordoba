@@ -15,7 +15,7 @@ namespace FarmaceuticaWebApi.Controllers
             this._stockService = stockService;
         }
         [HttpGet("/Establishment")]
-        public async Task<IActionResult> GetByEstablishment([FromQuery]int id)
+        public async Task<IActionResult> GetByEstablishment([FromQuery] int id)
         {
             List<Stock> stocks = await _stockService.GetByEstablishment(id);
             if (stocks.Count > 0)
@@ -23,7 +23,7 @@ namespace FarmaceuticaWebApi.Controllers
             return NotFound("No se encuentran stocks cargados en esta sucursal");
         }
         [HttpGet("/Establishment/Articles")]
-        public async Task<IActionResult> GetByEstablishmentArticle([FromQuery]int id, [FromQuery]string? product, [FromQuery] string? medicine)
+        public async Task<IActionResult> GetByEstablishmentArticle([FromQuery] int id, [FromQuery] string? product, [FromQuery] string? medicine)
         {
             List<Stock> stocks = await _stockService.GetByEstablishmentAndArticle(id, product, medicine);
             if (stocks.Count > 0)
@@ -55,7 +55,7 @@ namespace FarmaceuticaWebApi.Controllers
         [HttpGet("/Establishment/Lotes/Filter")]
         public async Task<IActionResult> GetLoteByEstablishmentFilter([FromQuery] int id, [FromQuery] string? lote, [FromQuery] string? medicamento, [FromQuery] bool active)
         {
-            List<Stock> stocks = await _stockService.GetStockLotesByEstablishmentAndFilter(id, medicamento,lote, active );
+            List<Stock> stocks = await _stockService.GetStockLotesByEstablishmentAndFilter(id, medicamento, lote, active);
             if (stocks.Count > 0)
             {
 
@@ -65,27 +65,20 @@ namespace FarmaceuticaWebApi.Controllers
         }
 
         [HttpGet("Lotes/Establecimiento")]
-        public async Task<IActionResult> GetAllStockLotesByEstablishmentAndFilter([FromQuery]int establecimiento,[FromQuery] int medicamento,[FromQuery] int producto)
+        public async Task<IActionResult> GetAllStockLotesByEstablishmentAndFilter([FromQuery] int establecimiento, [FromQuery] int medicamento, [FromQuery] int producto)
         {
             try
             {
                 var stock = await _stockService.GetAllStockLotesByEstablishmentAndFilter(establecimiento, medicamento, producto);
-                if(establecimiento > 0)
+                if (establecimiento > 0)
                 {
-                    if (stock.Count > 0)
-                    {
-                        return Ok(stock);
-                    }
-                    else
-                    {
-                        return NotFound("No se encuentran registros disponibles");
-                    }
+                    return Ok(stock);
                 }
                 else
                 {
                     return StatusCode(500, "No hay pedidos disponibles");
                 }
-                
+
             }
             catch (Exception e)
             {
