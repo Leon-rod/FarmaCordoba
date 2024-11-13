@@ -21,5 +21,7 @@ namespace FarmaceuticaBack.Data.Contracts
 
         Task<bool> CreateInventario(Inventario inv);
 
+        Task<List<TiposMovimiento>> GetAllMovements();
+
     }
 }

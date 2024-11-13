@@ -14,5 +14,6 @@ namespace FarmaceuticaBack.Services.Contracts
         Task<List<SPReporteMensualCobertura>> ExecuteSpCobertura(int año, int mes, int obra);
 
         Task<List<SPReportemensualObraSocial>> ExecuteSpObraSocial(int a, int mes, int obra);
+        Task<List<SPMayoresCompras>> ExecuteSpMayoresCompras(int year, int count);
     }
 }
