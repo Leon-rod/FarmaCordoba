@@ -75,12 +75,12 @@
     
     <form id="detalleForm" onsubmit="event.preventDefault(); agregarDetalle();">
         <div class="row">
-            <div class="col-md-2 mb-3">
+            <!-- <div class="col-md-2 mb-3">
                 <input type="text" class="form-control" id="detalleIdFactura" placeholder="ID de Factura" readonly>
             </div>
             <div class="col-md-2 mb-3">
                 <input type="text" class="form-control" id="detalleId" placeholder="ID de Detalle" readonly>
-            </div>
+            </div> -->
             <div class="col-md-2 mb-3">
                 <select class="form-select" id="detalleMedicamento">
                     <option selected disabled>Medicamento</option>
@@ -159,7 +159,7 @@
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Métodos de Pago</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
@@ -172,8 +172,8 @@
                 <div id="paymentMethodsContainer"></div>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary" id="confirmButton">Confirmar</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="confirmButton" disabled>Confirmar</button>
               </div>
             </div>
         </div>

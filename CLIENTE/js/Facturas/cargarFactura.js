@@ -1,12 +1,12 @@
 let idFactura;
 async function ObtenerUltimoId(){
     try{
-        const $detalleIdFactura = document.getElementById("detalleIdFactura");
+        // const $detalleIdFactura = document.getElementById("detalleIdFactura");
         const response = await fetch("https://localhost:44379/api/Factura/GetLastId");
         const data = await response.json();
         document.getElementById("facturaId").value = data + 1;
         idFactura = data + 1;
-        $detalleIdFactura.value = data + 1;
+        // $detalleIdFactura.value = data + 1;
     } catch (error) {
         console.log("Error al cargar el id", error);
     }
@@ -47,7 +47,12 @@ async function CargarCoberturas(){
         const $detailCoberture = document.getElementById("detalleCobertura");
         const response = await fetch("https://localhost:44379/api/Cobertura");
         const data = await response.json();
-        // $detailCoberture.innerHTML = '';
+        $detailCoberture.innerHTML = '';
+        const $optionDefault = document.createElement("option");
+        $optionDefault.disabled = true;
+        $optionDefault.textContent = "Cobertura";
+        $detailCoberture.appendChild($optionDefault);
+        $optionDefault.selected = true;
         data.forEach(item => {
             const option = document.createElement("option");
             option.value = item.idTipoCobertura; 
@@ -64,6 +69,11 @@ async function CargarMedicamentos(){
         const $detailMedicine = document.getElementById("detalleMedicamento");
         const idPersonalEstablecimientos = document.getElementById("empleado").value;
         $detailMedicine.innerHTML = '';
+        const $optionDefault = document.createElement("option");
+        $optionDefault.disabled = true;
+        $optionDefault.textContent = "Medicamento";
+        $detailMedicine.appendChild($optionDefault);
+        $optionDefault.selected = true;
         let idEstablecimiento;
         const responsePersonalEstablecimiento = await fetch("https://localhost:44379/api/PersonalEstablecimiento/ID?id=" + idPersonalEstablecimientos);
         const dataPersonalEstablecimiento = await responsePersonalEstablecimiento.json();
@@ -104,12 +114,12 @@ function AgregarSubtotal(){
 
 let dispensaciones = [];
 let idDetalleFactura = 1;
-document.getElementById("detalleId").value = idDetalleFactura;
+// document.getElementById("detalleId").value = idDetalleFactura;
 function agregarDetalle() {
-   idDetalleFactura++;
+//    idDetalleFactura++;
 
-   const idFactura = document.getElementById('detalleIdFactura').value;
-   const idDispensacion = document.getElementById('detalleId').value;
+   const idFactura = document.getElementById('facturaId').value;
+//    const idDispensacion = document.getElementById('detalleId').value;
    const idMedicamentoLote = document.getElementById('detalleMedicamento').value;
    const idCobertura = document.getElementById('detalleCobertura').value;
    const descuento = document.getElementById('detalleDescuento').value / 100;
@@ -129,16 +139,17 @@ function agregarDetalle() {
 
     const detalleExistente = dispensaciones.find(detalle => 
         detalle.idMedicamentoLote === idMedicamentoLote && 
-        detalle.idCobertura === idCobertura 
+        detalle.idCobertura === idCobertura && detalle.matricula === matricula
     );
 
     if (detalleExistente) {
 
-        detalleExistente.cantidad = parseFloat(detalleExistente.cantidad) + parseFloat(cantidad);
+        detalleExistente.cantidad = parseInt(detalleExistente.cantidad) + parseInt(cantidad);
+        detalleExistente.subtotal = parseFloat(detalleExistente.subtotal) + parseFloat(subtotal);
     }else{
         dispensaciones.push({
             idFactura,
-            idDispensacion,
+            idDispensacion: idDetalleFactura++,
             idMedicamentoLote,
             idCobertura,
             descuento,
@@ -162,8 +173,8 @@ function agregarDetalle() {
    
    document.getElementById("detalleForm").reset();
    $total.value = totalAcumulado;
-   document.getElementById("detalleId").value = idDetalleFactura;
-   document.getElementById("detalleIdFactura").value = idFactura;
+//    document.getElementById("detalleId").value = idDetalleFactura;
+//    document.getElementById("detalleIdFactura").value = idFactura;
 }
 
 function actualizarTablaDetalles() {
@@ -173,7 +184,7 @@ function actualizarTablaDetalles() {
         const row = table.insertRow();
         row.innerHTML = `
             <td>${detalle.idFactura}</td>
-            <td>${index + 1}</td>
+            <td>${detalle.idDispensacion}</td>
             <td>${detalle.medicamento}</td>
             <td>${detalle.cobertura}</td>
             <td>${detalle.descuento}</td>
@@ -193,7 +204,7 @@ function eliminarDetalle(index) {
     const dispensacionEliminada = dispensaciones.splice(index, 1);
     totalAcumulado -= parseFloat(dispensacionEliminada[0].subtotal);
     $total.value = totalAcumulado;
-    dispensaciones.forEach((detalle, i) => detalle.idDetalleFactura = i );
+    dispensaciones.forEach((detalle, i) => detalle.idDetalleFactura = i + 1);
     actualizarTablaDetalles();
 }
 
@@ -210,7 +221,7 @@ async function CargarMetodosPagos(){
             for (let i = 0; i < count; i++) {
             let methodDiv = document.createElement('div');
             methodDiv.classList.add('form-group');
-    
+            methodDiv.id = 'inputsPagos';
             let selectLabel = document.createElement('label');
             selectLabel.setAttribute('for', 'paymentMethod' + i);
             selectLabel.textContent = 'Método de pago ' + (i + 1);
@@ -322,11 +333,15 @@ async function SubirFactura() {
                 mostrarToast("Error al enviar un tipo de pago " + "Status: "+facturaTipoPagoResponse.status, "bg-danger");
             }
         }
+        document.getElementById('paymentMethodsCount').value = "";
+        document.getElementById("paymentMethodsContainer").removeChild(document.getElementById('inputsPagos'));
         modal.hide();
 
-        const toastElement = document.getElementById("facturaToast");
-        const toast = new bootstrap.Toast(toastElement);
-        toast.show();
+        // const toastElement = document.getElementById("facturaToast");
+        // const toast = new bootstrap.Toast(toastElement);
+        // toast.show();
+
+        mostrarToast("Factura cargada con exito", "bg-success");
 
 
         document.getElementById("empleado").value = "";
@@ -337,7 +352,7 @@ async function SubirFactura() {
 
         dispensaciones = [];
         idDetalleFactura = 1;
-        document.getElementById("detalleId").value = idDetalleFactura;
+        // document.getElementById("detalleId").value = idDetalleFactura;
 
         document.getElementById("paymentMethodsCount").removeEventListener('input', CargarMetodosPagos);
         document.getElementById("confirmButton").removeEventListener('click', SubirFactura);
@@ -347,6 +362,10 @@ async function SubirFactura() {
         
         ObtenerUltimoId();
         SetearFecha();
+
+        ReseatearSelects();
+
+        document.getElementById('total').value = ""; // agregar a ramaaaaa
 
     } else {
         mostrarToast("Error al enviar la factura " + "Status: "+facturaResponse.status, "bg-danger");
@@ -423,5 +442,15 @@ function ValidarPorcentajes(){
         confirmButton.disabled = false;
     } else {
         confirmButton.disabled = true; 
+    }
+}
+function ReseatearSelects(){
+    const selectsHeader = [document.getElementById("cliente"), document.getElementById("empleado")];
+    const selectsDisp = [document.getElementById("detalleMedicamento"), document.getElementById("detalleCobertura")]
+    for (const select of selectsHeader) {
+        select.selectedIndex = 0;
+    }
+    for (const select of selectsDisp) {
+        select.selectedIndex = 0;
     }
 }
