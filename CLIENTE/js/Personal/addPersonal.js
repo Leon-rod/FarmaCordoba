@@ -1,5 +1,5 @@
 import { ShowResultError } from "../Utils/toast.js"
-import { loadBarrio, loadGenero, loadCargo, loadTipoDoc } from "./auxPersonal.js";
+import { loadBarrio, loadGenero, loadCargo, loadTipoDoc, loadEstablecimiento } from "./auxPersonal.js";
 
 document.addEventListener("DOMContentLoaded", function() {
     
@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const barrioSelect = document.getElementById("barrio");
     const generoSelect = document.getElementById("genero");
     const tipoDocSelect = document.getElementById("tipoDoc");
+    const establecimientoSelect = document.getElementById("userEstablishment");
 
 
 
@@ -16,6 +17,7 @@ document.addEventListener("DOMContentLoaded", function() {
     loadGenero(generoSelect);
     loadCargo(cargoSelect);
     loadTipoDoc(tipoDocSelect);
+    loadEstablecimiento(establecimientoSelect);
 
 
 });
@@ -43,12 +45,12 @@ document.getElementById("btn-addPersonal").addEventListener("click", async funct
                   console.log(data)
               })
               .catch(error => console.error("Error al cargar el id", error))
-      }
+      }      
  
      await loadIdPersonal();
      await loadIdPersonalCargosEstablecimientos();
 
-     const establecimiento = localStorage.getItem("establecimientoPersonal");
+     const establecimiento = document.getElementById("userEstablishment").value;
      const nombre = document.getElementById("name").value;
      const apellido = document.getElementById("lastName").value;
      const fechaNac = document.getElementById("fechaNac").value;
@@ -105,7 +107,7 @@ document.getElementById("btn-addPersonal").addEventListener("click", async funct
             if (response2.ok) {
                 localStorage.setItem('status', 200);
                 console.log("Personal y PersonalCargosEstablecimientos agregados correctamente");
-                window.location.href = "./personal.html"
+                window.location.href = "/pages/Login/login.html";
             } else {
                 console.log("Error al agregar PersonalCargosEstablecimientos");
                 ShowResultError("Error al agregar PersonalCargosEstablecimientos.");

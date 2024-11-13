@@ -36,7 +36,6 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-
     const ctxCob = document.getElementById('reportCobertura').getContext('2d');
     let myChartCob = new Chart(ctxCob, {
         type: 'bar',
