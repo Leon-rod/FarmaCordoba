@@ -28,6 +28,15 @@ AS
 						IF(@STOCK_MEDICAMENTO = 0 OR @STOCK_MEDICAMENTO is null OR @STOCK_MEDICAMENTO < @CANTIDAD)
 						begin
 							raiserror('No hay stock del medicamento para vender', 10, 1)
+
+							Delete
+							FROM Facturas
+							Where id_factura = (select inserted.id_factura from inserted)
+								
+							Delete
+							from DISPENSACIONES
+							where ID_FACTURA = (select inserted.id_factura from inserted) 
+
 							rollback transaction
 							RETURN
 						end
@@ -61,6 +70,15 @@ AS
 							IF(@STOCK_PRODUCTO = 0 OR @STOCK_PRODUCTO is null OR @STOCK_PRODUCTO < @CANTIDAD)
 							BEGIN
 								raiserror('No hay stock del producto para vender', 10, 1)
+								
+								Delete
+								FROM Facturas
+								Where id_factura = (select inserted.id_factura from inserted)
+								
+								Delete
+								from DISPENSACIONES
+								where ID_FACTURA = (select inserted.id_factura from inserted) 
+																
 								rollback transaction
 								RETURN
 							END
