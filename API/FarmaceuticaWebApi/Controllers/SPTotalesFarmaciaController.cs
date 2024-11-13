@@ -47,10 +47,22 @@ namespace FarmaceuticaWebApi.Controllers
                 var result = await _service.ExecuteSpObraSocial(year, month, obra);
                 return Ok(result);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
-                throw;
+                return StatusCode(500, e.Message);
+            }
+        }
+        [HttpGet("MayoresCompras")]
+        public async Task<IActionResult> GetMayoresCompras([FromQuery] int year, [FromQuery] int count)
+        {
+            try
+            {
+                var result = await _service.ExecuteSpMayoresCompras(year, count);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
             }
         }
     }

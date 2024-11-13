@@ -16,7 +16,7 @@ namespace FarmaceuticaBack.Data.Models
         [Column("Cliente")]
         public string Client { get; set; }
         [Column("Total_Medicamentos")]
-        public decimal TotalMedicine { get; set; }
+        public int TotalMedicine { get; set; }
         [Column("Contacto")]
         public string Contact { get; set; }
         [Column("Barrio")]
