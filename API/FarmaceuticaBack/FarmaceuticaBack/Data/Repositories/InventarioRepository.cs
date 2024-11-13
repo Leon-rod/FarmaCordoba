@@ -55,6 +55,11 @@ namespace FarmaceuticaBack.Data.Repositories
                                         .ToListAsync() ;
         }
 
+        public async Task<List<TiposMovimiento>> GetAllMovements()
+        {
+            return await _context.TiposMovimientos.ToListAsync();
+        }
+
         public async Task<List<Inventario>> GetInventarioByFactura(int idFactura, DateTime from, DateTime to)
         {
             if(from == null || from == DateTime.MinValue || to == null || to == DateTime.MinValue)
@@ -107,7 +112,9 @@ namespace FarmaceuticaBack.Data.Repositories
                                          .Include(d => d.Dispensacione.IdMedicamentoLoteNavigation.IdMedicamentoNavigation)
                                          .Include(d => d.DetallesPedido.IdProductoNavigation)
                                          .Include(d => d.DetallesPedido.IdPedidoNavigation)
-                                         .Include(d => d.IdTipoMovNavigation)                                        
+                                         .Include(d => d.IdTipoMovNavigation)
+                                         .Include(d => d.Dispensacione.IdFacturaNavigation.IdPersonalCargosEstablecimientosNavigation)
+                                         .Include(d => d.DetallesPedido.IdPedidoNavigation.IdPersonalCargosEstablecimientosNavigation)
                                          .Where(d => d.Dispensacione.IdFacturaNavigation.Fecha >= valorDateOnly || d.DetallesPedido.IdPedidoNavigation.Fecha >= valorDateOnly);
                         }
                         else
@@ -120,6 +127,8 @@ namespace FarmaceuticaBack.Data.Repositories
                                          .Include(d => d.DetallesPedido.IdProductoNavigation)
                                          .Include(d => d.DetallesPedido.IdPedidoNavigation)
                                          .Include(d => d.IdTipoMovNavigation)
+                                          .Include(d => d.Dispensacione.IdFacturaNavigation.IdPersonalCargosEstablecimientosNavigation)
+                                         .Include(d => d.DetallesPedido.IdPedidoNavigation.IdPersonalCargosEstablecimientosNavigation)
                                          .Where(d => d.Dispensacione.IdFacturaNavigation.Fecha <= valorDateOnly || d.DetallesPedido.IdPedidoNavigation.Fecha <= valorDateOnly);
                         }
 
@@ -139,12 +148,24 @@ namespace FarmaceuticaBack.Data.Repositories
                                      .Include(d => d.DetallesPedido.IdProductoNavigation)
                                      .Include(d => d.DetallesPedido.IdPedidoNavigation)
                                      .Include(d => d.IdTipoMovNavigation)
+                                     .Include(d => d.Dispensacione.IdFacturaNavigation.IdPersonalCargosEstablecimientosNavigation)
+                                     .Include(d => d.DetallesPedido.IdPedidoNavigation.IdPersonalCargosEstablecimientosNavigation)
                                      .Where(d => EF.Property<int>(d, p.Name) == valorInt.Value);
                     }
                 }
             }
 
-            return await query.ToListAsync();
+            return await query.Include(d => d.Dispensacione.IdFacturaNavigation)
+                                         .Include(d => d.Dispensacione.IdProductoNavigation)
+                                         .Include(d => d.Dispensacione.IdMedicamentoLoteNavigation)
+                                         .Include(d => d.Dispensacione.IdMedicamentoLoteNavigation.IdMedicamentoNavigation)
+                                         .Include(d => d.DetallesPedido.IdProductoNavigation)
+                                         .Include(d => d.DetallesPedido.IdPedidoNavigation)
+                                         .Include(d => d.IdTipoMovNavigation)
+                                         .Include(d => d.Dispensacione.IdFacturaNavigation.IdPersonalCargosEstablecimientosNavigation)
+                                         .Include(d => d.DetallesPedido.IdPedidoNavigation.IdPersonalCargosEstablecimientosNavigation)
+                                         .Where(d=> d.Dispensacione.IdFacturaNavigation.IdPersonalCargosEstablecimientosNavigation.IdEstablecimiento == oFiltro.Establecimiento || d.DetallesPedido.IdPedidoNavigation.IdPersonalCargosEstablecimientosNavigation.IdEstablecimiento == oFiltro.Establecimiento)
+                .ToListAsync();
         }
 
         public async Task<List<Inventario>> GetInventarioByPedido(int idPedido, DateTime from, DateTime to)
