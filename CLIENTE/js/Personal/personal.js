@@ -46,11 +46,7 @@ document.addEventListener("DOMContentLoaded", function() {
         })
         .catch(error => console.error("Error al obtener los datos filtrados:", error));
     });
-
-    document.getElementById("addPersonalBtn").addEventListener("click", function() {
-        window.location.href = "./addPersonalForm.html";
-    });
-
+    
     loadPersonal();
 });
 

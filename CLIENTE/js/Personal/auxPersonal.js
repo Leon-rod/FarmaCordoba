@@ -68,6 +68,23 @@ export async function loadCargo(select) {
         .catch(error => console.error("Error al cargar opciones:", error));
 }
 
+export async function loadEstablecimiento(select) {
+    await fetch("https://localhost:44379/api/Establecimiento")
+        .then(response => response.json())
+        .then(data => {
+            select.innerHTML = '<option selected>Seleccionar</option>';
+            data.forEach(item => {
+                const option = document.createElement("option");
+                option.value = item.idEstablecimiento; 
+                option.textContent = item.nombre; 
+                select.appendChild(option);
+            });
+
+
+        })
+        .catch(error => console.error("Error al cargar opciones:", error));
+}
+
 
 export function mapPersonal(personal) {
     const row = document.createElement("tr");

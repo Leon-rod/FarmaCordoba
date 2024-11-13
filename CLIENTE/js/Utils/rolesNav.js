@@ -189,6 +189,7 @@ function CargarNav(){
                                 <li><a class="dropdown-item" href="../Productos/producto.html">Productos</a></li>
                                 <li><a class="dropdown-item" href="../Stock/stock.html">Stock</a></li>
                                 <li><a class="dropdown-item" href="../Lotes/lotes.html">Lotes</a></li>
+                                <li><a class="dropdown-item" href="../Inventarios/inventarios.html">Inventarios</a></li>
                                 <li><a class="dropdown-item" href="../Personal/personal.html">Gestión usuarios</a></li>
                             </ul>
                         </li>

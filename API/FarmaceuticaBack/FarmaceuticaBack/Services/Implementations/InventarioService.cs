@@ -29,6 +29,10 @@ namespace FarmaceuticaBack.Services.Implementations
             return await _repository.GetAll();
         }
 
+        public async Task<List<TiposMovimiento>> GetAllMovements()
+        {
+            return await _repository.GetAllMovements();
+        }
 
         public async Task<List<Inventario>> GetInventarioByFactura(int idFactura, DateTime from, DateTime to)
         {

@@ -16,6 +16,13 @@ namespace FarmaceuticaWebApi.Controllers
             _inventarioService = inventarioService;
         }
 
+        [HttpGet("Movements")]
+
+        public async Task<IActionResult> GetMovements()
+        {
+            return Ok(await _inventarioService.GetAllMovements());  
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetAllInventarios()
         {
@@ -52,9 +59,9 @@ namespace FarmaceuticaWebApi.Controllers
 
         }
 
-        [HttpPost("Filters")]
+        [HttpGet("Filters")]
 
-        public async Task<IActionResult> GetInventarioByFilter(InventarioFiltro oFiltro)
+        public async Task<IActionResult> GetInventarioByFilter([FromQuery]InventarioFiltro oFiltro)
         {
             if ((oFiltro.IdFactura == 0 || oFiltro.GetType().GetProperty("IdFactura")?.PropertyType != typeof(int?)) && oFiltro.IdFactura != null)
             {

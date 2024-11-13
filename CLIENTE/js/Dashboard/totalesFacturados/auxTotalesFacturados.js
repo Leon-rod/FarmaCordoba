@@ -26,6 +26,18 @@ export async function loadYears(select) {
 
 }
 
+export async function loadYears2(select) {
+    const year = new Date().getFullYear();
+
+    for(let i = 2019; i<= year; i++){
+        const option = document.createElement("option");
+        option.value =  i; 
+        option.textContent = i; 
+        select.appendChild(option);
+    }
+
+}
+
 export async function mapView(register) {
     const row = document.createElement("tr");
 
