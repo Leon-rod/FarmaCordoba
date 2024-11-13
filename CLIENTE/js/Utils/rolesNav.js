@@ -60,6 +60,7 @@ function CargarNav(){
                             <ul class="dropdown-menu dropdown-menu-dark">
                                 <li><a class="dropdown-item" href="../Dashboard/totalesFacturados.html">Totales facturados por vendedor</a></li>
                                 <li><a class="dropdown-item" href="../Dashboard/reporteOS.html">Reporte mensual Obra Social</a></li>
+                                <li><a class="dropdown-item" href="../Dashboard/totalesFarmacia.html">Totales facturados por Farmacia</a></li>
                             </ul>
                         </li>
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href="../Acerca_de/acerca.html">Acerca de</a></li>`;
@@ -76,6 +77,7 @@ function CargarNav(){
                             <ul class="dropdown-menu dropdown-menu-dark">
                                 <li><a class="dropdown-item" href="../Dashboard/totalesFacturados.html">Totales facturados por vendedor</a></li>
                                 <li><a class="dropdown-item" href="../Dashboard/reporteOS.html">Reporte mensual Obra Social</a></li>
+                                <li><a class="dropdown-item" href="../Dashboard/totalesFarmacia.html">Totales facturados por Farmacia</a></li>
                             </ul>
                         </li>
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href="../Acerca_de/acerca.html">Acerca de</a></li>`;
