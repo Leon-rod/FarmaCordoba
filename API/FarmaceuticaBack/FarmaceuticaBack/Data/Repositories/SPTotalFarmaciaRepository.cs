@@ -39,7 +39,7 @@ namespace FarmaceuticaBack.Data.Repositories
         public async Task<List<SPMayoresCompras>> ExecuteSpMayoresCompras(int year, int count)
         {
             var resultados = await _context.Set<SPMayoresCompras>()
-                .FromSqlRaw("EXEC SP_MAYORES_COMPRAS @AÑO = {0}, @CANTIDAD = {1}")
+                .FromSqlRaw("EXEC SP_MAYORES_COMPRAS @AÑO = {0}, @CANTIDAD = {1}", year, count)
                 .ToListAsync();
                 return resultados;
         }
