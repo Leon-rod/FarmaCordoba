@@ -19,8 +19,11 @@ async function cargarPedidoId() {
 }
 
 async function cargarEmpleado() {
-    const response = await fetch("https://localhost:44379/api/PersonalEstablecimiento");
+    const idEstablecimiento = localStorage.getItem("establecimientoPersonal")
+
+    const response = await fetch(`https://localhost:44379/api/PersonalEstablecimiento/Establishment?id=${idEstablecimiento}`);
     const empleados = await response.json();
+    console.log(empleados)
     const empleadoSelect = document.getElementById("empleado");
     empleados.forEach(empleado => {
         const option = document.createElement("option");
