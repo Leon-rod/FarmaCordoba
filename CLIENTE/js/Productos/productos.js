@@ -13,7 +13,45 @@ document.addEventListener("DOMContentLoaded", async () => {
     } catch (error) {
         console.error("Error al cargar datos:", error);
     }
+
+    const statusEdit = localStorage.getItem('status-producto-editado');
+    const statusAdd = localStorage.getItem('status-producto-agregado');
+    {
+        if (statusEdit && statusEdit === "200") {
+            mostrarToast("Producto editado", "bg-success");
+            localStorage.removeItem('status-producto-editado');
+          } else if(statusEdit && statusEdit === "400") {
+            mostrarToast("Error al editar el producto");
+            localStorage.removeItem('status-producto-editado');
+        }
+
+        if(statusAdd && statusAdd === "200"){
+            mostrarToast("Producto agregado", "bg-success");
+            localStorage.removeItem('status-producto-agregado');
+        }else if(statusAdd && statusAdd === "500"){
+            mostrarToast("Error al agregar el producto");
+            localStorage.removeItem('status-producto-agregado');
+        }
+
+
+          
+          
+      }
+
+
+    
 });
+
+function mostrarToast(mensaje, color = 'bg-danger', duracion = 3000) {
+    const toastElement = document.getElementById("pedidoToast");
+    const toastMessage = document.getElementById("toastMessage");
+
+    toastMessage.textContent = mensaje;
+    toastElement.className = `toast align-items-center text-white ${color} border-0`;
+
+    const toast = new bootstrap.Toast(toastElement, { delay: duracion });
+    toast.show();
+}
 
 let deleteProductId = null; 
 
@@ -29,13 +67,13 @@ function populateTable(products, tableBody) {
     products.forEach(product => {
         const row = document.createElement("tr");
         row.innerHTML = `
-            <td>${product.idProducto}</td>
+            <td class="d-none">${product.idProducto}</td>
             <td>${product.nombre}</td>
             <td>${product.idMarcaNavigation.nombreMarca}</td>
             <td>${product.tipoProductoNavigation.tipoProducto}</td>
             <td>${product.descripcion}</td>
             <td>$${product.precio}</td>
-            <td>${product.activo ? "Sí" : "No"}</td>
+            <td>${product.activo ? "Activo" : "Inactivo"}</td>
             <td>
                 <button class="btn btn-outline-primary btn-sm me-2" onclick="editProduct(${product.idProducto})">
                     <i class="bi bi-pencil-square"></i>
@@ -73,15 +111,25 @@ document.getElementById("searchProd").addEventListener("click", async () => {
 });
 
 async function loadMarcas(select, selectedId = null) {
-    await fetch("https://localhost:44379/api/Marca")
+    let  marcas = [];
+    await fetch("https://localhost:44379/api/Producto")
         .then(response => response.json())
         .then(data => {
+            data.forEach(item =>{
+                marcas.push(item.idMarcaNavigation.idMarca)
+            })
+
+            marcas = [...new Set(marcas)];
+
             select.innerHTML = '<option selected>Seleccionar</option>';
             data.forEach(item => {
-                const option = document.createElement("option");
-                option.value = item.idMarca; 
-                option.textContent = item.nombreMarca; 
-                select.appendChild(option);
+                if (marcas.includes(item.idMarcaNavigation.idMarca)) {
+                    const option = document.createElement("option");
+                    option.value = item.idMarcaNavigation.idMarca; 
+                    option.textContent = item.idMarcaNavigation.nombreMarca; 
+                    select.appendChild(option);
+                    marcas = marcas.filter(m => m !== item.idMarcaNavigation.nombreMarca);
+                }
             });
             if (selectedId) {
                 select.value = selectedId;
@@ -89,6 +137,8 @@ async function loadMarcas(select, selectedId = null) {
         })
         .catch(error => console.error("Error al cargar opciones de marcas:", error));
 }
+
+
 
 async function loadTipos(select, selectedId = null) {
     await fetch("https://localhost:44379/api/TipoProducto")

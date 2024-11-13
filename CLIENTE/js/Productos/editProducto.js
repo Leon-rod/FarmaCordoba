@@ -82,12 +82,22 @@ async function saveChanges() {
             },
             body: JSON.stringify(productData)
         });
-        alert("Producto actualizado correctamente");
+        localStorage.setItem("status-producto-editado", "200")
         window.location.href = "/pages/Productos/Producto.html"; 
     } catch (error) {
-        console.error("Error al actualizar producto:", error);
+        mostrarToast("No se pudo editar el producto")
     }
 }
 
 
+function mostrarToast(mensaje, color = 'bg-danger', duracion = 3000) {
+    const toastElement = document.getElementById("pedidoToast");
+    const toastMessage = document.getElementById("toastMessage");
+
+    toastMessage.textContent = mensaje;
+    toastElement.className = `toast align-items-center text-white ${color} border-0`;
+
+    const toast = new bootstrap.Toast(toastElement, { delay: duracion });
+    toast.show();
+}
 

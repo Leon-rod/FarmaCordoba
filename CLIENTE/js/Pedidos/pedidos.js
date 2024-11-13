@@ -75,4 +75,17 @@ async function cargarDetallesPedido(idPedido) {
     }
 }
 
+function filtrarPedidos(columna) {
+    const table = document.getElementById('pedidosTable');
+    const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+    const filterInputs = table.getElementsByTagName('thead')[0].getElementsByTagName('input');
+    const filterValue = filterInputs[columna].value.toLowerCase();
+
+    for (let row of rows) {
+        const cell = row.getElementsByTagName('td')[columna];
+        const cellText = cell ? cell.textContent.toLowerCase() : '';
+        row.style.display = cellText.includes(filterValue) ? '' : 'none';
+    }
+}
+
 document.addEventListener('DOMContentLoaded', cargarPedidos);

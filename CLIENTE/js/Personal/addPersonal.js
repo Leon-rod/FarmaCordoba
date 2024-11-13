@@ -109,6 +109,7 @@ document.getElementById("btn-addPersonal").addEventListener("click", async funct
                 console.log("Personal y PersonalCargosEstablecimientos agregados correctamente");
                 window.location.href = "/pages/Login/login.html";
             } else {
+                localStorage.setItem('status', 400);
                 console.log("Error al agregar PersonalCargosEstablecimientos");
                 ShowResultError("Error al agregar PersonalCargosEstablecimientos.");
             }

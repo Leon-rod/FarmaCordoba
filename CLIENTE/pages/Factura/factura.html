@@ -42,16 +42,17 @@
             </div>
         </div>
     </nav>
+
     <div class="container mt-5">
         <h3 class="mt-4">Lista de Facturas</h3>
         <div class="table-responsive" style="max-height: 65vh; overflow-y: auto;">
             <table class="table table-bordered mt-3 text-center table-striped w-100" id="facturasTable">
                 <thead style="position: sticky; top: 0; background-color: #ffffff; z-index: 1;">
                     <tr>
-                        <th>N° Factura</th>
-                        <th>Empleado</th>
-                        <th>Cliente</th>
-                        <th>Fecha</th>
+                        <th>N° Factura<br><input type="text" class="form-control" placeholder="Buscar N° Factura" onkeyup="filtrarFacturas(0)"></th>
+                        <th>Empleado<br><input type="text" class="form-control" placeholder="Buscar Empleado" onkeyup="filtrarFacturas(1)"></th>
+                        <th>Cliente<br><input type="text" class="form-control" placeholder="Buscar Cliente" onkeyup="filtrarFacturas(2)"></th>
+                        <th>Fecha<br><input type="text" class="form-control" placeholder="Buscar Fecha" onkeyup="filtrarFacturas(3)"></th>
                         <th>Total</th>
                         <th>Acciones</th>
                     </tr>

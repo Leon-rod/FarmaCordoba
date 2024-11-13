@@ -1,15 +1,44 @@
 import { ShowResult, ShowResultError } from '../Utils/toast.js';
 
 export async function loadMarcas(select, selectedId = null) {
+    let  marcas = [];
+    await fetch("https://localhost:44379/api/Medicamento")
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(item =>{
+                marcas.push(item.idMarcaNavigation.idMarca)
+            })
+
+            marcas = [...new Set(marcas)];
+            select.innerHTML = '<option selected>Seleccionar</option>';
+            data.forEach(item => {
+                if (marcas.includes(item.idMarcaNavigation.idMarca)) {
+                    const option = document.createElement("option");
+                    option.value = item.idMarcaNavigation.idMarca; 
+                    option.textContent = item.idMarcaNavigation.nombreMarca; 
+                    select.appendChild(option);
+                    marcas = marcas.filter(m => m !== item.idMarcaNavigation.nombreMarca);
+                }
+            });
+            if (selectedId) {
+                select.value = selectedId;
+            }
+
+        })
+        .catch(error => console.error("Error al cargar opciones:", error));
+}
+
+export async function loadAllMarcas(select, selectedId = null) {
     await fetch("https://localhost:44379/api/Marca")
         .then(response => response.json())
         .then(data => {
             select.innerHTML = '<option selected>Seleccionar</option>';
             data.forEach(item => {
-                const option = document.createElement("option");
-                option.value = item.idMarca; 
-                option.textContent = item.nombreMarca; 
-                select.appendChild(option);
+
+                    const option = document.createElement("option");
+                    option.value = item.idMarca; 
+                    option.textContent = item.nombreMarca; 
+                    select.appendChild(option);
             });
             if (selectedId) {
                 select.value = selectedId;

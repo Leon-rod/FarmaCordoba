@@ -29,8 +29,9 @@ async function CargarClientes(){
 }
 async function CargarEmpleados(){
     try{
+        const idEstablecimiento = localStorage.getItem("establecimientoPersonal")
         const $employeeSelect = document.getElementById("empleado");
-        const response = await fetch("https://localhost:44379/api/PersonalEstablecimiento");
+        const response = await fetch(`https://localhost:44379/api/PersonalEstablecimiento/Establishment?id=${idEstablecimiento}`);
         const data = await response.json();
         data.forEach(item => {
             const option = document.createElement("option");
@@ -67,6 +68,7 @@ async function CargarCoberturas(){
 async function CargarMedicamentos(){
     try{
         const $detailMedicine = document.getElementById("detalleMedicamento");
+        const $detailProduct = document.getElementById("detalleProducto");
         const idPersonalEstablecimientos = document.getElementById("empleado").value;
         $detailMedicine.innerHTML = '';
         const $optionDefault = document.createElement("option");
@@ -86,12 +88,20 @@ async function CargarMedicamentos(){
                 option.value = item.idMedicamentoLote; 
                 option.textContent = `${item.idMedicamentoLoteNavigation.idMedicamentoNavigation.nombreComercial} (${item.idMedicamentoLoteNavigation.idMedicamentoNavigation.idPresentacionNavigation.nombrePresentacion})`; 
                 $detailMedicine.appendChild(option);
+            }else{
+                const option = document.createElement("option");
+                option.value = item.idProducto; 
+                option.textContent = `${item.idProductoNavigation.nombre}`; 
+                $detailProduct.appendChild(option);
             }
         });
     } catch (error) {
         console.log("Error al cargar medicamentos", error);
     }
 }
+
+
+
 document.addEventListener("DOMContentLoaded", () => {
     ObtenerUltimoId();
     CargarClientes();
@@ -121,6 +131,7 @@ function agregarDetalle() {
    const idFactura = document.getElementById('facturaId').value;
 //    const idDispensacion = document.getElementById('detalleId').value;
    const idMedicamentoLote = document.getElementById('detalleMedicamento').value;
+   const idProducto = document.getElementById('detalleProducto').value;
    const idCobertura = document.getElementById('detalleCobertura').value;
    const descuento = document.getElementById('detalleDescuento').value / 100;
    const precioUnitario = document.getElementById('detallePrecio').value;
@@ -129,12 +140,28 @@ function agregarDetalle() {
    const matricula = document.getElementById('detalleMatricula').value;
    const codigoValidacion = document.getElementById('detalleCodigo').value;
    const medicamento = document.getElementById('detalleMedicamento').selectedOptions[0].text;
+   const producto = document.getElementById('detalleProducto').selectedOptions[0].text;
    const cobertura = document.getElementById('detalleCobertura').selectedOptions[0].text;
-   
-   if (!idMedicamentoLote || !idCobertura || !precioUnitario || !cantidad || !matricula || !codigoValidacion) {
-    mostrarToast("Por favor, complete todos los campos del detalle.", "bg-danger");
-    return;
-    }
+   console.log(idMedicamentoLote)
+   if(idMedicamentoLote != "Medicamento"){
+    if (!idMedicamentoLote || !idCobertura || !precioUnitario || !cantidad || !matricula || !codigoValidacion) {
+        mostrarToast("Por favor, complete todos los campos del detalle.", "bg-danger");
+        return;
+        }
+    
+   }else{
+    if (!idProducto || !precioUnitario || !cantidad) {
+        medicamento = "-"
+        mostrarToast("Por favor, complete todos los campos del detalle producto.", "bg-danger");
+        return;
+        }
+   }
+
+
+    /*if(idMedicamentoLote && idProducto){
+        mostrarToast("No puede elegir un medicamento y un producto al mismo tiempo", "bg-danger");
+        return;
+    }*/
 
 
     const detalleExistente = dispensaciones.find(detalle => 
@@ -151,6 +178,8 @@ function agregarDetalle() {
             idFactura,
             idDispensacion: idDetalleFactura++,
             idMedicamentoLote,
+            idProducto,
+            producto,
             idCobertura,
             descuento,
             precioUnitario,
@@ -185,7 +214,7 @@ function actualizarTablaDetalles() {
         row.innerHTML = `
             <td>${detalle.idFactura}</td>
             <td>${detalle.idDispensacion}</td>
-            <td>${detalle.medicamento}</td>
+            <td>${detalle.idMedicamentoLote == "Medicamento" ? detalle.producto : detalle.medicamento}</td>
             <td>${detalle.cobertura}</td>
             <td>${detalle.descuento}</td>
             <td>${detalle.precioUnitario}</td>

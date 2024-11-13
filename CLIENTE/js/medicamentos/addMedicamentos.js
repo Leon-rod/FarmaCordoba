@@ -1,5 +1,5 @@
 import { ShowResultError } from "../Utils/toast.js"
-import { loadMarcas, loadLaboratorios, loadPresentaciones, loadMonodrogas } from "./auxMedicamentos.js";
+import { loadMarcas, loadAllMarcas,loadLaboratorios, loadPresentaciones, loadMonodrogas } from "./auxMedicamentos.js";
 
 document.addEventListener("DOMContentLoaded", function() {
     
@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function() {
             .catch(error => console.error("Error al cargar el id", error))
     }
 
-    loadMarcas(selects.marcas);
+    loadAllMarcas(selects.marcas);
     loadLaboratorios(selects.laboratorios);
     loadMonodrogas(selects.monodrogas)
     loadPresentaciones(selects.presentaciones)

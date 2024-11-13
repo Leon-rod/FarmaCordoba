@@ -82,9 +82,20 @@ async function createProduct() {
             },
             body: JSON.stringify(newProductData)
         });
-        alert("Producto creado correctamente");
+        localStorage.setItem("status-producto-agregado", "200")
         window.location.href = "/pages/Productos/Producto.html"; 
     } catch (error) {
-        console.error("Error al crear el producto:", error);
+        mostrarToast("No se pudo agregar")
     }
+}
+
+function mostrarToast(mensaje, color = 'bg-danger', duracion = 3000) {
+    const toastElement = document.getElementById("pedidoToast");
+    const toastMessage = document.getElementById("toastMessage");
+
+    toastMessage.textContent = mensaje;
+    toastElement.className = `toast align-items-center text-white ${color} border-0`;
+
+    const toast = new bootstrap.Toast(toastElement, { delay: duracion });
+    toast.show();
 }

@@ -1,3 +1,6 @@
+
+
+
 async function CargarEstablecimientos(){
     const response = await fetch("https://localhost:44379/api/Establecimiento");
     const establecimientos = await response.json();
@@ -42,6 +45,16 @@ function LimpiarFormulario(){
 }
 
 document.addEventListener("DOMContentLoaded",()=>{
+    const status = localStorage.getItem('status');
+{
+    if (status == "200") {
+        mostrarToast("Registro exitoso", "bg-success");
+      } else if(status == "400") {
+        mostrarToast("Error al realizar el registro");
+      }
+      localStorage.removeItem('status');
+  }
+
     document.getElementById("loginBtn").addEventListener("click", Loguear);
     CargarEstablecimientos();
 })

@@ -1,5 +1,5 @@
 import { ShowResult, ShowResultError } from '../Utils/toast.js';
-import { loadLaboratorios, loadMarcas, loadMonodrogas, loadPresentaciones, deleteMed, mapMed } from './auxMedicamentos.js';
+import { loadLaboratorios, loadMarcas,loadAllMarcas, loadMonodrogas, loadPresentaciones, deleteMed, mapMed } from './auxMedicamentos.js';
 
 document.addEventListener("DOMContentLoaded", function() {
 
@@ -55,7 +55,6 @@ document.addEventListener("DOMContentLoaded", function() {
             Activo: document.getElementById("active").checked 
         };
 
-        console.log(filtros)
     
         for (let key in filtros) {
             if (filtros[key] === "Seleccionar") {
