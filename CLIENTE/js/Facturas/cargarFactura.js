@@ -280,8 +280,15 @@ async function SubirFactura() {
                         codigoValidacion: detalle.codigoValidacion
                     })
                 });
-                if (!detalleResponse.ok) {
-                    mostrarToast("Error al enviar una dispensacion (id: " + detalle.idDispensacion + ") " + "Status: "+detalleResponse.status, "bg-danger");
+                if (detalleResponse.status === 400) {
+                    let mensaje = await detalleResponse.text();
+                    mostrarToast(mensaje, "bg-danger");
+                }
+                else if (detalleResponse.status === 500) {
+                    // let mensaje = await detalleResponse.text();
+                    const select = document.getElementById("detalleMedicamento");
+                    const option = Array.from(select.options).find(option => option.value === detalle.idMedicamentoLote);
+                    mostrarToast("Se cancelo la factura dado que no hay stock del lote " + option.text + " para vender", "bg-danger");             
                 }
             } catch (error) {
                 mostrarToast("Error al intentar conectar con el servidor " + error, "bg-danger");
