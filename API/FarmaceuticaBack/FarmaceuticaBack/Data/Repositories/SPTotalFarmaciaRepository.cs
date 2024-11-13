@@ -21,10 +21,26 @@ namespace FarmaceuticaBack.Data.Repositories
         }
         public async Task<List<SPTotalesFarmacia>> ExecuteSp(int año)
         {
-            var resultados = _context.Set<SPTotalesFarmacia>()
+            var resultados = await _context.Set<SPTotalesFarmacia>()
             .FromSqlRaw("EXEC SP_TOTALES_FACTURADOS_FARMACIAS @año = {0}", año)
-            .ToList();
+            .ToListAsync();
 
+            return resultados;
+        }
+
+        public async Task<List<SPReporteMensualCobertura>> ExecuteSpCobertura(int año, int mes, int obra)
+        {
+            var resultados = await _context.Set<SPReporteMensualCobertura>()
+                .FromSqlRaw("EXEC SP_REPORTE_MENSUAL_COBERTURA @ANIO = {0}, @MES = {1}, @OBRA_SOCIAL = {2}", año, mes, obra)
+                .ToListAsync();
+            return resultados;
+        }
+
+        public async Task<List<SPReportemensualObraSocial>> ExecuteSpObraSocial(int a, int mes, int obra)
+        {
+            var resultados = await _context.Set<SPReportemensualObraSocial>()
+                .FromSqlRaw("EXEC SP_REPORTE_MENSUAL_OBRA_SOCIAL @ANIO = {0}, @MES = {1}, @OBRA_SOCIAL = {2}", a, mes, obra)
+                .ToListAsync();
             return resultados;
         }
     }

@@ -93,6 +93,8 @@ public partial class FarmaceuticaContext : DbContext
     public virtual DbSet<VTotalesFacturadosVendedore> VTotalesFacturadosVendedores { get; set; }
 
     public DbSet<SPTotalesFarmacia> SPTotalesFarmacia { get; set; }
+    public DbSet<SPReporteMensualCobertura> sPReporteMensualCoberturas { get; set; }
+    public DbSet<SPReportemensualObraSocial> sPReportemensualObraSociales { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -1102,6 +1104,8 @@ public partial class FarmaceuticaContext : DbContext
 
 
         modelBuilder.Entity<SPTotalesFarmacia>().HasNoKey();
+        modelBuilder.Entity<SPReporteMensualCobertura>().HasNoKey();
+        modelBuilder.Entity<SPReportemensualObraSocial>().HasNoKey();
  
 
 

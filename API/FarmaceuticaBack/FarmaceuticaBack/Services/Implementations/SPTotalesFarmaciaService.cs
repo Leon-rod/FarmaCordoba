@@ -21,5 +21,15 @@ namespace FarmaceuticaBack.Services.Implementations
         {
             return await _repository.ExecuteSp(año);
         }
+
+        public async Task<List<SPReporteMensualCobertura>> ExecuteSpCobertura(int año, int mes, int obra)
+        {
+            return await _repository.ExecuteSpCobertura(año, mes, obra);
+        }
+
+        public async Task<List<SPReportemensualObraSocial>> ExecuteSpObraSocial(int a, int mes, int obra)
+        {
+            return await _repository.ExecuteSpObraSocial(a, mes, obra);
+        }
     }
 }
