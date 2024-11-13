@@ -1,9 +1,12 @@
-import { loadYears} from "../totalesFacturados/auxTotalesFacturados.js";
+import { loadYears2} from "../totalesFacturados/auxTotalesFacturados.js";
 import { loadObraSocial} from "./auxReporteMensualOS.js";
 import { mapViewOS } from "./auxReporteMensualOS.js";
+import { mapViewCob } from "./auxReporteMensualOS.js";
+
+
 
 document.addEventListener("DOMContentLoaded", function() {
-
+    
     const selects = {
         os: document.getElementById("os"),
         año: document.getElementById("año"),
@@ -11,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function() {
     };
 
     loadObraSocial(selects.os);
-    loadYears(selects.año);
+    loadYears2(selects.año);
 
     const ctx = document.getElementById('report').getContext('2d');
     let myChart = new Chart(ctx, {
@@ -34,7 +37,25 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
 
-
+    const ctxCob = document.getElementById('reportCobertura').getContext('2d');
+    let myChartCob = new Chart(ctxCob, {
+        type: 'bar',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'Importes a reintegrar por cobertura por mes',
+                data: [],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
 
     async function loadViewOS(){
         await fetch('https://localhost:44379/VReporteMensualOS', {
@@ -58,14 +79,24 @@ document.addEventListener("DOMContentLoaded", function() {
         myChart.data.datasets[0].data = totals;
 
         myChart.update();
-
-
     }
+    
+    function updateChartCob(data, mes, año) {
+        const labels = data.map(item => item.tipoDeCobertura + ', ' + mes + '-' + año); 
+        const totals = data.map(item => item.importeAReintegrar);
+
+        myChartCob.data.labels = labels;
+        myChartCob.data.datasets[0].data = totals;
+
+        myChartCob.update();
+    }
+
     document.getElementById("searchView").addEventListener("click", async function() {
         const filtros = {
             Año: document.getElementById("año").value,
             Mes: document.getElementById("mes").value,
-            ObraSocial: document.getElementById("os").value
+            ObraSocial: document.getElementById("os").value,
+            ObraSocialNombre: document.getElementById("os").selectedOptions[0].text
         };
 
         for (let key in filtros) {
@@ -73,8 +104,34 @@ document.addEventListener("DOMContentLoaded", function() {
                 filtros[key] = 0;
             } 
         }
-            
-        await fetch(`https://localhost:44379/VReporteMensualOS/Filter?os=${filtros.ObraSocial}&year=${filtros.Año}&month=${filtros.Mes}`, {
+        
+        if(filtros.Año === 0 || filtros.Mes === 0 || filtros.ObraSocial === 0){
+            const tableBody = document.getElementById("tableBodyCobertura");
+            tableBody.innerHTML = "";
+            updateChartCob([],0,0);   
+        }
+        
+        if(filtros.Año != 0 && filtros.Mes != 0 && filtros.ObraSocial != 0){
+            await fetch(`https://localhost:44379/api/SPTotalesFarmacia/TotalesCoberturas?year=${filtros.Año}&month=${filtros.Mes}&obra=${filtros.ObraSocial}`, {
+                method: "GET",
+                headers: { "Content-Type": "application/json" }
+            })
+            .then(response => response.json())
+            .then(data => {
+                const tableBody = document.getElementById("tableBodyCobertura");
+                tableBody.innerHTML = "";
+    
+                data.forEach(register => {
+                    mapViewCob(register, filtros.Mes, filtros.Año);
+                });
+    
+                updateChartCob(data, filtros.Mes, filtros.Año); 
+            })
+            .catch(error => console.error("Error al obtener los datos filtrados:", error));
+        }
+
+
+        await fetch(`https://localhost:44379/VReporteMensualOS/Filter?os=${filtros.ObraSocialNombre}&year=${filtros.Año}&month=${filtros.Mes}`, {
             method: "GET",
             headers: { "Content-Type": "application/json" }
         })
@@ -94,3 +151,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
     loadViewOS();
 });
+
+
+

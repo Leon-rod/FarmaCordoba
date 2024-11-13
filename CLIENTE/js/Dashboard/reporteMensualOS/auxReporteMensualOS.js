@@ -5,7 +5,7 @@ export async function loadObraSocial(select) {
             select.innerHTML = '<option selected>Seleccionar</option>';
             data.forEach(item => {
                 const option = document.createElement("option");
-                option.value =  item.nombre; 
+                option.value =  item.idObraSocial; 
                 option.textContent = item.nombre; 
                 select.appendChild(option);
             });
@@ -37,5 +37,29 @@ export async function mapViewOS(register) {
 
 
     document.getElementById("tableBody").appendChild(row);
+}
+
+export async function mapViewCob(register, mes, año) {
+    const row = document.createElement("tr");
+
+    const añoCell = document.createElement("td");
+    añoCell.textContent = año;
+
+    const mesCell = document.createElement("td");
+    mesCell.textContent = mes;
+
+    const obraSocial = document.createElement("td");
+    obraSocial.textContent = register.tipoDeCobertura;
+
+    const importeAReintegrar = document.createElement("td");
+    importeAReintegrar.textContent = '$' + register.importeAReintegrar.toFixed(2);
+
+    row.appendChild(añoCell)
+    row.appendChild(mesCell)
+    row.appendChild(obraSocial)
+    row.appendChild(importeAReintegrar)
+
+
+    document.getElementById("tableBodyCobertura").appendChild(row);
 }
 
