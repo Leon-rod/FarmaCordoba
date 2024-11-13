@@ -39,6 +39,7 @@ namespace FarmaceuticaBack.Data.Repositories
                                     .Where(p => p.IdEstablecimiento == id)
                                     .Include(p => p.IdPersonalNavigation)
                                     .Include(p => p.IdCargoNavigation)
+                                    .Include(p=> p.IdEstablecimientoNavigation)
                                     .ToListAsync();
         }
 

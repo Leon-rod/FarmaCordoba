@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function() {
         data: {
             labels: [],
             datasets: [{
-                label: 'Total Facturado por vendedor, mes y año',
+                label: 'Total Facturado por Establecimiento por año',
                 data: [],
                 borderWidth: 1
             }]
@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
     async function loadView(){
-        await fetch('https://localhost:44379/api/SPTotalesFarmacia?year=2024', {
+        await fetch('https://localhost:44379/api/SPTotalesFarmacia/TotalesFarmacia?year=2024', {
             method: "GET",
             headers: { "Content-Type": "application/json" }
         })
@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function() {
             } 
         }
             
-        await fetch(`https://localhost:44379/api/SPTotalesFarmacia?year=${filtros.Año}`, {
+        await fetch(`https://localhost:44379/api/SPTotalesFarmacia/TotalesFarmacia?year=${filtros.Año}`, {
             method: "GET",
             headers: { "Content-Type": "application/json" }
         })
