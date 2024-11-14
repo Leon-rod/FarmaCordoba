@@ -144,7 +144,7 @@ function agregarDetalle() {
    let cobertura = document.getElementById('detalleCobertura').selectedOptions[0].text;
    console.log(idMedicamentoLote)
    if(idMedicamentoLote != "Medicamento"){
-    if (!idMedicamentoLote || !idCobertura || !precioUnitario || !cantidad || !matricula || !codigoValidacion) {
+    if (!idMedicamentoLote || cobertura == "Cobertura" || !precioUnitario || !cantidad || !matricula || !codigoValidacion) {
         mostrarToast("Por favor, complete todos los campos del detalle.", "bg-danger");
         return;
         }
@@ -301,7 +301,7 @@ async function SubirFactura() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(facturaData)
     });
-    let respuesta
+    let respuestaDispensaciones = true;
     if (facturaResponse.ok) {
         for(var detalle of dispensaciones) {
             try {
@@ -323,10 +323,11 @@ async function SubirFactura() {
                 });
                 if (detalleResponse.status === 400) {
                     let mensaje = await detalleResponse.text();
-                    mostrarToast(mensaje, "bg-danger");
+                    respuestaDispensaciones = false;
+                    mostrarToast("Los campos de un detalle no fueron completados correctamente", "bg-danger");
                 }
                 else if (detalleResponse.status === 500) {
-                    // let mensaje = await detalleResponse.text();
+                    respuestaDispensaciones = false;
                     const select = document.getElementById("detalleMedicamento");
                     const selectProducto = document.getElementById("detalleProducto");
                     if (detalle.idMedicamentoLote == "Medicamento"){
@@ -371,7 +372,7 @@ async function SubirFactura() {
                 flagfacturaTipoPagoResponse = false;
             }
         }
-        if (facturaResponse.status === 200 && flagfacturaTipoPagoResponse === true){
+        if (facturaResponse.status === 200 && flagfacturaTipoPagoResponse === true && respuestaDispensaciones === true) {
             mostrarToast("Factura cargada con exito", "bg-success");
             
         }
