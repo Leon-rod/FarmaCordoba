@@ -1,3 +1,4 @@
+USE Farmaceutica
 go
 
 CREATE VIEW V_TOTALES_FACTURADOS_VENDEDORES
@@ -24,10 +25,10 @@ AS
 														WHERE SBC.ID_PERSONAL_1 = F.ID_PERSONAL_CARGOS_ESTABLECIMIENTOS)
 
 
-go---------------------------------------------------------------------------------------------------------------------------
+go
 
 
----------------------------------------------------------------------------------------------------------------------------	
+	
 go
 
 CREATE VIEW V_REPORTE_MENSUAL_OBRA_SOCIAL

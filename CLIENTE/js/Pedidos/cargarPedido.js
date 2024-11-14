@@ -68,16 +68,41 @@ async function cargarProveedor() {
         proveedorSelect.appendChild(option);
     });
 }
+async function cargarProducto() {
+    const response = await fetch("https://localhost:44379/api/Producto");
+    const logistica = await response.json();
+    const logisticaSelect = document.getElementById("detalleProducto");
+    logistica.forEach(item => {
+        const option = document.createElement("option");
+        option.value = item.idProducto;
+        option.textContent = item.nombre;
+        logisticaSelect.appendChild(option);
+    });
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 let detalles = [];
 let idDetalleCounter = 1;
-
+let flag;
 function agregarDetalle() {
     const idPedido = document.getElementById("pedidoId").value;
-    const idMedicamento = document.getElementById("detalleMedicamento").value;
-    const nombreMedicamento = document.getElementById("detalleMedicamento").selectedOptions[0].text;
+    // const idMedicamento = document.getElementById("detalleMedicamento").value;
+    // const nombreMedicamento = document.getElementById("detalleMedicamento").selectedOptions[0].text;
+    let idMedicamento, nombreMedicamento;
+const detalleMedicamento = document.getElementById("detalleMedicamento");
+const detalleProducto = document.getElementById("detalleProducto");
+
+if (detalleMedicamento.value !== "Medicamento") {
+    idMedicamento = detalleMedicamento.value;
+    nombreMedicamento = detalleMedicamento.selectedOptions[0].text;
+	flag = true
+} else {
+    idMedicamento = detalleProducto.value;
+    nombreMedicamento = detalleProducto.selectedOptions[0].text;
+	flag = false;
+}
+
     const idProveedor = document.getElementById("detalleProveedor").value;
     const nombreProveedor = document.getElementById("detalleProveedor").selectedOptions[0].text;
     const precioUnitario = parseFloat(document.getElementById("detallePrecio").value);
@@ -85,7 +110,7 @@ function agregarDetalle() {
     const subtotal = document.getElementById("subtotal").value;
 
 
-    if (!idMedicamento || !idProveedor || !precioUnitario || !cantidad) {
+    if (!idMedicamento || !idProveedor || !precioUnitario || !cantidad || (detalleProducto.value !== "Producto" && detalleMedicamento.value !== "Medicamento")) {
         mostrarToast("Por favor, complete todos los campos del detalle.", "bg-danger");
         return;
     }
@@ -189,7 +214,8 @@ async function realizarPedido() {
                 body: JSON.stringify({
                     idPedido: detalle.idPedido,
                     idDetallePedido: detalle.idDetallePedido,
-                    idMedicamentoLote: detalle.idMedicamento,
+                    idMedicamentoLote: flag ? detalle.idMedicamento : null,
+                    idProducto: flag ? null : detalle.idMedicamento,
                     idProveedor: detalle.idProveedor,
                     precioUnitario: detalle.precioUnitario,
                     cantidad: detalle.cantidad
@@ -248,4 +274,9 @@ document.addEventListener("DOMContentLoaded", () => {
     cargarProveedor();
     AgregarSubtotal();
     SetearFecha();
+    cargarProducto();
 });
+
+
+
+

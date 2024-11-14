@@ -1,5 +1,4 @@
---- TERMINADO
-
+USE Farmaceutica
 go
 CREATE TRIGGER DIS_VERIFICAR_STOCK_VENTA
 ON DISPENSACIONES
@@ -28,16 +27,17 @@ AS
 						IF(@STOCK_MEDICAMENTO = 0 OR @STOCK_MEDICAMENTO is null OR @STOCK_MEDICAMENTO < @CANTIDAD)
 						begin
 							raiserror('No hay stock del medicamento para vender', 10, 1)
-
-							Delete
-							FROM Facturas
-							Where id_factura = (select inserted.id_factura from inserted)
+							rollback transaction
+							
 								
 							Delete
 							from DISPENSACIONES
 							where ID_FACTURA = (select inserted.id_factura from inserted) 
+							Delete
+							FROM Facturas
+							Where id_factura = (select inserted.id_factura from inserted)
 
-							rollback transaction
+							
 							RETURN
 						end
 						ELSE
@@ -70,16 +70,17 @@ AS
 							IF(@STOCK_PRODUCTO = 0 OR @STOCK_PRODUCTO is null OR @STOCK_PRODUCTO < @CANTIDAD)
 							BEGIN
 								raiserror('No hay stock del producto para vender', 10, 1)
-								
+								rollback transaction
+								Delete
+								from DISPENSACIONES
+								where ID_FACTURA = (select inserted.id_factura from inserted)
 								Delete
 								FROM Facturas
 								Where id_factura = (select inserted.id_factura from inserted)
 								
-								Delete
-								from DISPENSACIONES
-								where ID_FACTURA = (select inserted.id_factura from inserted) 
+								 
 																
-								rollback transaction
+								
 								RETURN
 							END
 							ELSE
@@ -100,8 +101,6 @@ go
 
 
 go
--------------------------------------------------------
----- TERMINADO
 CREATE TRIGGER DIS_ACTUALIZAR_INVENTARIO_VENTA
 ON DISPENSACIONES
 FOR INSERT
@@ -143,8 +142,6 @@ END
 go
 
 go
--------------------------------------------------------
---- TERMINADO
 CREATE TRIGGER DIS_ACTUALIZAR_STOCK_OTROS
 ON INVENTARIOS
 FOR INSERT
@@ -168,22 +165,6 @@ BEGIN
 
 END
 go
---- MODIFICADOR sirve para darle el signo correspondiente a la suma. Actualmente este trigger esta pensado para roturas, vencimientos etc osea todos -1 pero para pensarlo de forma
--- escalable, por si en un futuro tenemos otro tipo de movimiento que sume, lo decidimos usar como una variable.
-
-
-
---------------------------------------------------------------------------------------------------
-
--- Trigger para la autoinsercion de inventarios en casos de reposicion.
--- El trigger insertara un registro por cada insercion en detalles_pedidos, 
--- tomando en cuenta el ultimo stock del establecimiento (conseguido mediante fecha en caso de que hayan registros de stocks historicos).
--- En caso de que el establecimiento no posea registros de ese stock, es decir, es la primera vez que se repone
--- ese articulo, el trigger procedera a crear un nuevo registro en stock, el cual tendrá por defecto los siguientes valores:
---	- Fecha: Valor en formato DATE en el que se disparo el trigger,
---	- Cantidad: Valor proveniente del detalle_pedido
---	- Cantidad_Minima: Valor 200 por defecto (SUJETO A CAMBIO!!!)
---Una vez insertado el stock, procedera a insertar a inventario haciendo referencia a ese nuevo stock
 
 go
 CREATE TRIGGER DIS_REPONER_ARTICULO
@@ -297,7 +278,6 @@ go
 
 go
 
------------------------------------------------------------
 
 CREATE TRIGGER DIS_REPONER_STOCK_DISPENSACION_ELIMINADA
 ON DISPENSACIONES
@@ -348,9 +328,6 @@ BEGIN
 												ORDER BY FECHA DESC)
 
 
-
-			--INSERT INTO INVENTARIOS(ID_FACTURA, ID_DISPENSACION, ID_TIPO_MOV, ID_STOCK, CANTIDAD, FECHA)
-			--SELECT d.ID_FACTURA, d.ID_DISPENSACION, 8, s.ID_STOCK, d.CANTIDAD, GETDATE() FROM deleted d join STOCKS s on d.ID_PRODUCTO = s.ID_PRODUCTO
 
 			DELETE FROM INVENTARIOS
 			WHERE ID_FACTURA = @ID_FACTURA AND ID_DISPENSACION = @ID_DISPENSACION

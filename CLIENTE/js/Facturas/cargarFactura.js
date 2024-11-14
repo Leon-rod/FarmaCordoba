@@ -50,7 +50,7 @@ async function CargarCoberturas(){
         const data = await response.json();
         $detailCoberture.innerHTML = '';
         const $optionDefault = document.createElement("option");
-        $optionDefault.disabled = true;
+        // $optionDefault.disabled = true;
         $optionDefault.textContent = "Cobertura";
         $detailCoberture.appendChild($optionDefault);
         $optionDefault.selected = true;
@@ -72,7 +72,7 @@ async function CargarMedicamentos(){
         const idPersonalEstablecimientos = document.getElementById("empleado").value;
         $detailMedicine.innerHTML = '';
         const $optionDefault = document.createElement("option");
-        $optionDefault.disabled = true;
+        // $optionDefault.disabled = true;
         $optionDefault.textContent = "Medicamento";
         $detailMedicine.appendChild($optionDefault);
         $optionDefault.selected = true;
@@ -139,9 +139,9 @@ function agregarDetalle() {
    const subtotal = document.getElementById('subtotal').value;
    const matricula = document.getElementById('detalleMatricula').value;
    const codigoValidacion = document.getElementById('detalleCodigo').value;
-   const medicamento = document.getElementById('detalleMedicamento').selectedOptions[0].text;
-   const producto = document.getElementById('detalleProducto').selectedOptions[0].text;
-   const cobertura = document.getElementById('detalleCobertura').selectedOptions[0].text;
+   let medicamento = document.getElementById('detalleMedicamento').selectedOptions[0].text;
+   let producto = document.getElementById('detalleProducto').selectedOptions[0].text;
+   let cobertura = document.getElementById('detalleCobertura').selectedOptions[0].text;
    console.log(idMedicamentoLote)
    if(idMedicamentoLote != "Medicamento"){
     if (!idMedicamentoLote || !idCobertura || !precioUnitario || !cantidad || !matricula || !codigoValidacion) {
@@ -158,10 +158,10 @@ function agregarDetalle() {
    }
 
 
-    /*if(idMedicamentoLote && idProducto){
+    if(idMedicamentoLote != "Medicamento" && idProducto != "Producto"){
         mostrarToast("No puede elegir un medicamento y un producto al mismo tiempo", "bg-danger");
         return;
-    }*/
+    }
 
 
     const detalleExistente = dispensaciones.find(detalle => 
@@ -301,7 +301,7 @@ async function SubirFactura() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(facturaData)
     });
-
+    let respuesta
     if (facturaResponse.ok) {
         for(var detalle of dispensaciones) {
             try {
@@ -311,13 +311,14 @@ async function SubirFactura() {
                     body: JSON.stringify({
                         idFactura: detalle.idFactura,
                         idDispensacion: detalle.idDispensacion,
-                        idMedicamentoLote: detalle.idMedicamentoLote,
-                        idCobertura: detalle.idCobertura,
+                        idProducto: detalle.idMedicamentoLote == "Medicamento" ? detalle.idProducto : null,
+                        idMedicamentoLote: detalle.idMedicamentoLote == "Medicamento" ? null : detalle.idMedicamentoLote,
+                        idCobertura: detalle.idMedicamentoLote == "Medicamento" ? null : detalle.idCobertura,
                         descuento: detalle.descuento,
                         precioUnitario: detalle.precioUnitario,
                         cantidad: detalle.cantidad,
-                        matricula: detalle.matricula,
-                        codigoValidacion: detalle.codigoValidacion
+                        matricula: detalle.idMedicamentoLote == "Medicamento" ? null : detalle.matricula,
+                        codigoValidacion: detalle.idMedicamentoLote == "Medicamento" ? null : detalle.codigoValidacion
                     })
                 });
                 if (detalleResponse.status === 400) {
@@ -327,8 +328,15 @@ async function SubirFactura() {
                 else if (detalleResponse.status === 500) {
                     // let mensaje = await detalleResponse.text();
                     const select = document.getElementById("detalleMedicamento");
-                    const option = Array.from(select.options).find(option => option.value === detalle.idMedicamentoLote);
-                    mostrarToast("Se cancelo la factura dado que no hay stock del lote " + option.text + " para vender", "bg-danger");             
+                    const selectProducto = document.getElementById("detalleProducto");
+                    if (detalle.idMedicamentoLote == "Medicamento"){
+                        const option = Array.from(selectProducto.options).find(option => option.value === detalle.idProducto);
+                        mostrarToast("Se cancelo la factura dado que no hay stock del producto " + option.text + " para vender", "bg-danger");  
+
+                    } else {
+                        const option = Array.from(select.options).find(option => option.value === detalle.idMedicamentoLote );
+                        mostrarToast("Se cancelo la factura dado que no hay stock del lote " + option.text + " para vender", "bg-danger");             
+                    }
                 }
             } catch (error) {
                 mostrarToast("Error al intentar conectar con el servidor " + error, "bg-danger");
@@ -352,6 +360,7 @@ async function SubirFactura() {
           methods.push({ idFacturaTipoPago, idFactura, idTipoPago, porcentajePago, esCuotas, cantidadCuotas });
           idFacturaTipoPago++;
         }
+        let flagfacturaTipoPagoResponse = true;
         for (var method of methods) {
             const facturaTipoPagoResponse = await fetch("https://localhost:44379/api/FacturaTipoPago", {
                 method: "POST",
@@ -359,8 +368,12 @@ async function SubirFactura() {
                 body: JSON.stringify(method)
             })
             if (!facturaTipoPagoResponse.ok) {
-                mostrarToast("Error al enviar un tipo de pago " + "Status: "+facturaTipoPagoResponse.status, "bg-danger");
+                flagfacturaTipoPagoResponse = false;
             }
+        }
+        if (facturaResponse.status === 200 && flagfacturaTipoPagoResponse === true){
+            mostrarToast("Factura cargada con exito", "bg-success");
+            
         }
         document.getElementById('paymentMethodsCount').value = "";
         document.getElementById("paymentMethodsContainer").removeChild(document.getElementById('inputsPagos'));
@@ -370,13 +383,12 @@ async function SubirFactura() {
         // const toast = new bootstrap.Toast(toastElement);
         // toast.show();
 
-        mostrarToast("Factura cargada con exito", "bg-success");
-
-
+        
+        
         document.getElementById("empleado").value = "";
         document.getElementById("cliente").value = "";
         document.getElementById("fecha").value = "";
-
+        
         document.getElementById('paymentMethodsCount').removeEventListener('input', CargarMetodosPagos);
 
         dispensaciones = [];
